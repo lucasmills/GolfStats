@@ -68,17 +68,49 @@ def calculate_points(scorecards, course_pars):
     return points_history
 
 
+# Function to collect scores
+def collect_scores(scorecards, course_pars):
+    score_history = pandas.DataFrame(columns=["Date", "Course", "Score"])
+
+    for card, _ in scorecards.iterrows():
+        scorecard_data = scorecards.iloc[card]
+        date_played = scorecard_data["Date"]
+        course = scorecard_data["Course"]
+        course_par = course_pars[course_pars["Course"] == course]
+        total_score_for_round = 0
+        total_to_par_for_round = 0
+
+        for hole in GOLF_HOLES:
+            hole_par = course_par[str(hole)]
+            hole_score = scorecard_data[str(hole)]
+            hole_score_to_par = hole_score - hole_par
+
+            total_score_for_round += hole_score
+            total_to_par_for_round += hole_score_to_par
+
+        round_score = pandas.DataFrame({"Date": [date_played],
+                                        "Course": [course],
+                                        "Score": [total_score_for_round]})
+
+        score_history = score_history.append(round_score)
+
+    return score_history
+
+
 current_wd = os.getcwd()
 course_handicaps = read_golf_data(current_wd, PATH_TO_DATA, HANDICAPS)
 course_par_data = read_golf_data(current_wd, PATH_TO_DATA, COURSE_PAR)
 scorecard_history = read_golf_data(current_wd, PATH_TO_DATA, SCORE_CARDS)
 
+scores = collect_scores(scorecard_history, course_par_data)
 points = calculate_points(scorecard_history, course_par_data)
 
 date_delta_for_plotting = datetime.timedelta(days=14)
 date_of_first_round = min(points["Date"])
 date_of_last_round = max(points["Date"])
 
+
+# PLOT POINTS
 fig, ax = plt.subplots()
 ax.scatter(points["Date"], points["Points"], label=points["Course"])
 
@@ -94,6 +126,27 @@ plt.xticks(rotation=45)
 plt.xlabel("Date of Round")
 plt.ylabel("Points Earned")
 plt.title("Golf Points History")
+
+plt.tight_layout()
+plt.show()
+
+
+# PLOT SCORE
+fig, ax = plt.subplots()
+ax.scatter(scores["Date"], scores["Score"], label=scores["Course"])
+
+ax.legend()
+ax.grid(True)
+
+ax.set_xlim([date_of_first_round - date_delta_for_plotting,
+             date_of_last_round + date_delta_for_plotting])
+# ax.set_ylim([0, 25])
+
+plt.xticks(rotation=45)
+
+plt.xlabel("Date of Round")
+plt.ylabel("Score Earned")
+plt.title("Golf Score History")
 
 plt.tight_layout()
 plt.show()
