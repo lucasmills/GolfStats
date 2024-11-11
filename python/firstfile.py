@@ -35,9 +35,14 @@ def read_golf_data(current, data_location, sheet):
     return raw_golf_data
 
 
-# Function to calculate "points"
-def calculate_points(scorecards, course_pars):
-    points_history = pandas.DataFrame(columns=["Date", "Course", "Points"])
+def collect_score_and_calculate_points(scorecards, course_pars):
+    """
+    Description of function
+    :param scorecards:
+    :param course_pars:
+    :return:
+    """
+    golf_history = pandas.DataFrame(columns=["Date", "Course", "Score", "Points"])
 
     for card, _ in scorecards.iterrows():
         scorecard_data = scorecards.iloc[card]
@@ -46,39 +51,8 @@ def calculate_points(scorecards, course_pars):
         course_par = course_pars[course_pars["Course"] == course]
         total_score_for_round = 0
 
-        for hole in GOLF_HOLES:
-            hole_par = course_par[str(hole)]
-            hole_score = scorecard_data[str(hole)]
-            hole_score_to_par = hole_score - hole_par
-
-            try:
-                hole_score_type = GOLF_SCORES_FOR_POINTS.index(hole_score_to_par[0])
-                hole_points = POINTS_PER_SCORE[hole_score_type]
-            except ValueError:
-                hole_points = 0
-
-            total_score_for_round += hole_points
-
-        round_points = pandas.DataFrame({"Date": [date_played],
-                                         "Course": [course],
-                                         "Points": [total_score_for_round]})
-
-        points_history = points_history.append(round_points)
-
-    return points_history
-
-
-# Function to collect scores
-def collect_scores(scorecards, course_pars):
-    score_history = pandas.DataFrame(columns=["Date", "Course", "Score"])
-
-    for card, _ in scorecards.iterrows():
-        scorecard_data = scorecards.iloc[card]
-        date_played = scorecard_data["Date"]
-        course = scorecard_data["Course"]
-        course_par = course_pars[course_pars["Course"] == course]
-        total_score_for_round = 0
         total_to_par_for_round = 0
+        total_points_for_round = 0
 
         for hole in GOLF_HOLES:
             hole_par = course_par[str(hole)]
@@ -88,13 +62,22 @@ def collect_scores(scorecards, course_pars):
             total_score_for_round += hole_score
             total_to_par_for_round += hole_score_to_par
 
-        round_score = pandas.DataFrame({"Date": [date_played],
-                                        "Course": [course],
-                                        "Score": [total_score_for_round]})
+            try:
+                hole_score_type = GOLF_SCORES_FOR_POINTS.index(hole_score_to_par[0])
+                hole_points = POINTS_PER_SCORE[hole_score_type]
+            except ValueError:
+                hole_points = 0
 
-        score_history = score_history.append(round_score)
+            total_points_for_round += hole_points
 
-    return score_history
+        round_points = pandas.DataFrame({"Date": [date_played],
+                                         "Course": [course],
+                                         "Score": [total_score_for_round],
+                                         "Points": [total_points_for_round]})
+
+        golf_history = pandas.concat([golf_history, round_points])
+
+    return golf_history
 
 
 current_wd = os.getcwd()
@@ -102,17 +85,16 @@ course_handicaps = read_golf_data(current_wd, PATH_TO_DATA, HANDICAPS)
 course_par_data = read_golf_data(current_wd, PATH_TO_DATA, COURSE_PAR)
 scorecard_history = read_golf_data(current_wd, PATH_TO_DATA, SCORE_CARDS)
 
-scores = collect_scores(scorecard_history, course_par_data)
-points = calculate_points(scorecard_history, course_par_data)
+scores_and_points = collect_score_and_calculate_points(scorecard_history, course_par_data)
 
 date_delta_for_plotting = datetime.timedelta(days=14)
-date_of_first_round = min(points["Date"])
-date_of_last_round = max(points["Date"])
+date_of_first_round = min(scores_and_points["Date"])
+date_of_last_round = max(scores_and_points["Date"])
 
 
 # PLOT POINTS
 fig, ax = plt.subplots()
-ax.scatter(points["Date"], points["Points"], label=points["Course"])
+ax.scatter(scores_and_points["Date"], scores_and_points["Points"], label=scores_and_points["Course"])
 
 ax.legend()
 ax.grid(True)
@@ -133,14 +115,13 @@ plt.show()
 
 # PLOT SCORE
 fig, ax = plt.subplots()
-ax.scatter(scores["Date"], scores["Score"], label=scores["Course"])
+ax.scatter(scores_and_points["Date"], scores_and_points["Score"], label=scores_and_points["Course"])
 
 ax.legend()
 ax.grid(True)
 
 ax.set_xlim([date_of_first_round - date_delta_for_plotting,
              date_of_last_round + date_delta_for_plotting])
-# ax.set_ylim([0, 25])
 
 plt.xticks(rotation=45)
 
