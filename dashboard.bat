@@ -1,0 +1,1 @@
+c:\Users\Lucas\Apps\anaconda3\python.exe c:\Users\Lucas\Apps\GolfStats\python\app.py %*
