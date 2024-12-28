@@ -2,6 +2,7 @@
 from dash import Dash, html, dcc
 import plotly.express as px
 import pandas as pd
+import pickle
 
 app = Dash()
 
@@ -13,13 +14,18 @@ df = pd.DataFrame({
     "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
 })
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+with open("data\\golf_data.pkl", "rb") as f:
+    data = pickle.load(f)
 
+# Plot score
+fig = px.line(data, x=data["Date"], y=data["Score"], markers=True)
+
+# Application layout
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
+    html.H1(children="Lucas' Golf Statistics"),
 
     html.Div(children='''
-        Lucas' golf stats.
+        Score plots and stuff.
     '''),
 
     dcc.Graph(
