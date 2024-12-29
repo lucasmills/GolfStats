@@ -1,10 +1,17 @@
 # Main script
 from dash import Dash, html, dcc
+
 import plotly.express as px
 import pandas as pd
 import pickle
 
-app = Dash()
+from dash_bootstrap_templates import load_figure_template
+
+import dash_bootstrap_components as dbc
+
+load_figure_template(["cyborg", "darkly"])
+
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 
 # assume you have a "long-form" data frame
 # see https://plotly.com/python/px-arguments/ for more options
