@@ -9,18 +9,37 @@ from dash_bootstrap_templates import load_figure_template
 
 import dash_bootstrap_components as dbc
 
+
+def generate_stats_card(title, value):
+    return html.Div(
+        dbc.Card([
+            dbc.CardBody([
+                html.P(value,
+                       className="card-value",
+                       style={'margin': '0px',
+                              'fontSize': '22px',
+                              'fontWeight': 'bold'}),
+
+                html.H4(title,
+                        className="card-title",
+                        style={'margin': '0px',
+                               'fontSize': '18px',
+                               'fontWeight': 'bold'})
+            ],
+                style={'textAlign': 'center'}),
+            ],
+            style={'paddingBlock': '10px',
+                   "backgroundColor": '#363636',
+                   'border': 'none',
+                   'borderRadius': '10px'})
+    )
+
+
 load_figure_template(["cyborg", "darkly"])
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
-
+# Load golf data
 with open("data\\golf_data.pkl", "rb") as f:
     data = pickle.load(f)
 
@@ -29,11 +48,20 @@ fig = px.line(data, x=data["Date"], y=data["Score"], markers=True)
 
 # Application layout
 app.layout = html.Div(children=[
-    html.H1(children="Lucas' Golf Statistics"),
+    html.H1(children="Lucas' Golf Statistics",
+            style={'textAlign': 'center'}),
 
     html.Div(children='''
-        Score plots and stuff.
+        Overview statistics from the last 12 months
     '''),
+
+    dbc.Row([
+        dbc.Col(generate_stats_card("Number of rounds played ", 12), width=3),
+        dbc.Col(generate_stats_card("Average score ", 92), width=3),
+        dbc.Col(generate_stats_card("Average score ", 92), width=3),
+        dbc.Col(generate_stats_card("Average score ", 92), width=3),
+    ],
+        style={'marginBlock': '10px'}),
 
     dcc.Graph(
         id='example-graph',
