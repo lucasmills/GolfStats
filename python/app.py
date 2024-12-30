@@ -28,9 +28,17 @@ load_figure_template(["cyborg", "darkly"])
 
 # Plot score
 fig = px.line(golf_data,
-              x=golf_data["Date"],
-              y=golf_data["Score"],
+              x="Date",
+              y="Score",
+              custom_data=["Course"],
               markers=True)
+
+fig.update_traces(hovertemplate="<br>".join([
+    "Date: %{x}",
+    "Score: %{y}",
+    "Course: %{customdata[0]}"]),
+    marker=dict(size=15))
+
 
 # Create plotly dashboard application
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
@@ -39,10 +47,6 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 app.layout = html.Div(children=[
     html.H1(children="Lucas' Golf Statistics",
             style={"textAlign": "center"}),
-
-    html.Div(children='''
-        Overview statistics from the last 12 months
-    '''),
 
     dbc.Row([
         # Number of rounds played
