@@ -22,7 +22,9 @@ def collect_score_and_calculate_points(scorecards, course_pars):
     """
 
     # Comment
-    golf_history = pandas.DataFrame(columns=["Date", "Course", "Score", "Points", "Fairways", "GIR", "Putts"])
+    golf_history = pandas.DataFrame(columns=["Date", "Course", "Score",
+                                             "Points", "Fairways", "GIR",
+                                             "Putts"])
 
     # Comment
     for card, _ in scorecards.iterrows():
@@ -36,6 +38,7 @@ def collect_score_and_calculate_points(scorecards, course_pars):
         course = scorecard_data["Course"]
         course_par = course_pars[course_pars["Course"] == course]
 
+        course_par_score = course_par.sum(axis=1, numeric_only=True)
         # Comment
         total_score_for_round = 0
         total_to_par_for_round = 0
@@ -60,13 +63,15 @@ def collect_score_and_calculate_points(scorecards, course_pars):
             total_points_for_round += hole_points
 
         # Comment
-        round_score = pandas.DataFrame({"Date": [date_played],
-                                        "Course": [course],
-                                        "Score": [total_score_for_round],
-                                        "Points": [total_points_for_round],
-                                        "Fairways": [fairways_hit],
-                                        "GIR": [greens_reached_in_regulation],
-                                        "Putts": [number_of_putts]})
+        round_score = \
+            pandas.DataFrame({"Date": [date_played],
+                              "Course": [course],
+                              "Score": [total_score_for_round],
+                              "Score to par": [total_to_par_for_round],
+                              "Points": [total_points_for_round],
+                              "Fairways": [fairways_hit],
+                              "GIR": [greens_reached_in_regulation],
+                              "Putts": [number_of_putts]})
 
         # Comment
         golf_history = pandas.concat([golf_history, round_score])

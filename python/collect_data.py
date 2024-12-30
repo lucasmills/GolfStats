@@ -3,8 +3,8 @@ import os
 import pickle
 
 from python.constants import *
-from python.plot import plot_golf_statistics
-from python.utility import read_golf_data, collect_score_and_calculate_points
+from python.data_collection_utility import read_golf_data, \
+    collect_score_and_calculate_points
 
 
 print("Record and shot performance on each of the Par types")
@@ -22,6 +22,3 @@ db_file = open("data\\golf_data.pkl", 'ab')
 # source, destination
 pickle.dump(scores_and_points, db_file)
 db_file.close()
-
-# plot_golf_statistics(scores_and_points)
-
