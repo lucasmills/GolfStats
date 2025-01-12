@@ -3,7 +3,7 @@ import datetime
 import os
 import pandas
 
-from python.constants import *
+from data_collection.constants import *
 
 
 # Function to read in raw golf data

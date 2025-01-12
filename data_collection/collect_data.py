@@ -2,8 +2,8 @@
 import os
 import pickle
 
-from python.constants import *
-from python.data_collection_utility import read_golf_data, \
+from data_collection.constants import *
+from data_collection.data_collection_utility import read_golf_data, \
     collect_score_and_calculate_points
 
 
