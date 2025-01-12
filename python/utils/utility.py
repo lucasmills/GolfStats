@@ -5,12 +5,6 @@ from dash import html
 
 
 def generate_stats_card(title, value):
-    """
-    Function description
-    :param title:
-    :param value:
-    :return:
-    """
     return html.Div(
         dbc.Card([
             dbc.CardBody([
@@ -31,5 +25,6 @@ def generate_stats_card(title, value):
             style={'paddingBlock': '10px',
                    "backgroundColor": '#363636',
                    'border': 'none',
-                   'borderRadius': '10px'})
+                   'borderRadius': '10px'}
+        )
     )

@@ -10,7 +10,8 @@ import plotly.express as px
 import pickle
 
 # Local project imports
-from python.dash_utility.utility import generate_stats_card
+from python.layout.navbar import navbar
+from python.utils.utility import generate_stats_card
 
 # Load golf data
 with open("data\\golf_data.pkl", "rb") as f:
@@ -28,6 +29,7 @@ load_figure_template(["cyborg", "darkly"])
 
 # Plot score
 fig = px.line(golf_data,
+              title="Historical Round Scores",
               x="Date",
               y="Score",
               custom_data=["Course"],
@@ -45,8 +47,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 
 # Application layout
 app.layout = html.Div(children=[
-    html.H1(children="Lucas' Golf Statistics",
-            style={"textAlign": "center"}),
+    navbar,
 
     dbc.Row([
         # Number of rounds played
