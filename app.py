@@ -10,8 +10,8 @@ import plotly.express as px
 import pickle
 
 # Local project imports
-from python.layout.navbar import navbar
-from python.utils.utility import generate_stats_card
+from layout.navbar import navbar
+from utils.utility import generate_stats_card
 
 # Load golf data
 with open("data\\golf_data.pkl", "rb") as f:
