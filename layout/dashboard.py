@@ -56,17 +56,17 @@ dashboard = dbc.Row(
             style={'marginBlock': '10px'}),
 
         dbc.Card(
-            dbc.CardBody(
-                [
-                    html.H4("Round scores", className="card-title"),
-                    dcc.Graph(
-                        id='example-graph',
-                        figure=fig
-                    )
-                ]
-            ),
+            [
+                dbc.CardHeader(html.H4("Round scores")),
+                dbc.CardBody(
+                    [
+                        dcc.Graph(
+                            id='example-graph',
+                            figure=fig
+                        )
+                    ]),
+            ],
         )
-
     ]),
     id="dashboard"
 )
