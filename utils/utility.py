@@ -23,7 +23,7 @@ def generate_stats_card(title, value):
                 style={'textAlign': 'center'}),
             ],
             style={'paddingBlock': '10px',
-                   "backgroundColor": '#363636',
+                   # "backgroundColor": '#363636',
                    'border': 'none',
                    'borderRadius': '10px'}
         )

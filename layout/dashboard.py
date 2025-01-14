@@ -4,7 +4,7 @@ import numpy
 import pickle
 import plotly.express as px
 
-from dash import dcc
+from dash import dcc, html
 from dash_bootstrap_templates import load_figure_template
 from utils.utility import generate_stats_card
 
@@ -21,11 +21,10 @@ lowest_score = numpy.min(golf_data["Score"])
 courses_played = golf_data["Course"].nunique()
 
 # Set the template for all dashboard plots
-load_figure_template(["cyborg", "darkly"])
+load_figure_template(["lux"])
 
 # Plot score
 fig = px.line(golf_data,
-              title="Historical Round Scores",
               x="Date",
               y="Score",
               custom_data=["Course"],
@@ -48,21 +47,26 @@ dashboard = dbc.Row(
             dbc.Col(generate_stats_card("Average strokes ", avg_score)),
 
             # Average score to par
-            dbc.Col(generate_stats_card("Average score to par ",
+            dbc.Col(generate_stats_card("Average handicap ",
                                         avg_score_to_par)),
 
             # Lowest score
             dbc.Col(generate_stats_card("Lowest score ", lowest_score)),
-
-            # Number of unique course played
-            dbc.Col(generate_stats_card("Courses played ", courses_played)),
         ],
             style={'marginBlock': '10px'}),
 
-        dcc.Graph(
-            id='example-graph',
-            figure=fig
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H4("Round scores", className="card-title"),
+                    dcc.Graph(
+                        id='example-graph',
+                        figure=fig
+                    )
+                ]
+            ),
         )
+
     ]),
     id="dashboard"
 )
