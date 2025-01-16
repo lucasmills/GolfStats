@@ -24,7 +24,8 @@ def collect_score_and_calculate_points(scorecards, course_pars):
     # Comment
     golf_history = pandas.DataFrame(columns=["Date", "Course", "Score",
                                              "Points", "Fairways", "GIR",
-                                             "Putts"])
+                                             "Putts", "Birdies", "Pars",
+                                             "Bogeys", "Doubles+"])
 
     # Comment
     for card, _ in scorecards.iterrows():
@@ -44,6 +45,11 @@ def collect_score_and_calculate_points(scorecards, course_pars):
         total_to_par_for_round = 0
         total_points_for_round = 0
 
+        total_birdies_for_round = 0
+        total_pars_for_round = 0
+        total_bogeys_for_round = 0
+        total_doubles_plus_per_round = 0
+
         # Comment
         for hole in GOLF_HOLES:
             hole_par = course_par[str(hole)]
@@ -55,12 +61,22 @@ def collect_score_and_calculate_points(scorecards, course_pars):
 
             # Comment
             try:
-                hole_score_type = GOLF_SCORES_FOR_POINTS.index(hole_score_to_par[0])
+                hole_score_type = GOLF_SCORES_FOR_POINTS.index(
+                    hole_score_to_par[0])
                 hole_points = POINTS_PER_SCORE[hole_score_type]
             except ValueError:
                 hole_points = 0
 
             total_points_for_round += hole_points
+
+            if hole_points == 3:
+                total_birdies_for_round += 1
+            elif hole_points == 2:
+                total_pars_for_round += 1
+            elif hole_points == 1:
+                total_bogeys_for_round += 1
+            elif hole_points == 0:
+                total_doubles_plus_per_round += 1
 
         # Comment
         round_score = \
@@ -71,7 +87,10 @@ def collect_score_and_calculate_points(scorecards, course_pars):
                               "Points": [total_points_for_round],
                               "Fairways": [fairways_hit],
                               "GIR": [greens_reached_in_regulation],
-                              "Putts": [number_of_putts]})
+                              "Putts": [number_of_putts],
+                              "Pars": [total_pars_for_round],
+                              "Bogeys": [total_bogeys_for_round],
+                              "Doubles+": [total_doubles_plus_per_round]})
 
         # Comment
         golf_history = pandas.concat([golf_history, round_score])
