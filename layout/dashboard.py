@@ -72,6 +72,7 @@ fig.add_trace(
 #     marker=dict(size=10))
 
 fig2 = px.box(golf_data, y=["Fairways", "GIR"])
+fig2.update_layout(xaxis_title="Category", yaxis_title="Achieved per round")
 
 
 fig3 = go.Figure()
@@ -81,9 +82,12 @@ fig3.add_trace(go.Histogram(x=golf_data["Bogeys"], name="Bogeys"))
 fig3.add_trace(go.Histogram(x=golf_data["Doubles+"], name="Double+"))
 
 # Overlay both histograms
-fig3.update_layout(barmode='overlay')
+fig3.update_layout(barmode="overlay")
 # Reduce opacity to see both histograms
 fig3.update_traces(opacity=0.75)
+
+fig3.update_layout(xaxis_title="Average per round", yaxis_title="Frequency")
+
 
 dashboard = dbc.Row(
     dbc.Col([

@@ -24,7 +24,7 @@ navbar = dbc.NavbarSimple(
             )
         ),
     ],
-    brand="Lucas' Golf History & Stats",
+    brand="Mills Golf Stats",
     brand_href="/",
     id="navbar",
     color="dark",
