@@ -8,7 +8,6 @@ from dash import dcc, html
 from dash_bootstrap_templates import load_figure_template
 from utils.utility import generate_stats_card
 
-
 # Load golf data
 with open("data\\golf_data.pkl", "rb") as f:
     golf_data = pickle.load(f)
@@ -35,6 +34,7 @@ fig.update_traces(hovertemplate="<br>".join([
     "Course: %{customdata[0]}"]),
     marker=dict(size=10))
 
+fig2 = px.box(golf_data, y=["Fairways", "GIR"])
 
 dashboard = dbc.Row(
     dbc.Col([
@@ -52,20 +52,82 @@ dashboard = dbc.Row(
             # Lowest score
             dbc.Col(generate_stats_card("Lowest score ", lowest_score)),
         ],
-            style={'marginBlock': '10px'}),
+            className="dashboard-row",
+            style={'marginBlock': '10px'}
+        ),
 
-        dbc.Card(
-            [
-                dbc.CardHeader(html.H4("Round scores")),
-                dbc.CardBody(
+        dbc.Row(
+            dbc.Card(
+                [
+                    dbc.CardHeader(html.H4("Round scores")),
+                    dbc.CardBody(
+                        [
+                            dcc.Graph(
+                                id='example-graph1',
+                                figure=fig
+                            )
+                        ]),
+                ],
+            ),
+            className="dashboard-row"
+        ),
+
+        dbc.Row([
+            dbc.Col(
+                dbc.Card(
                     [
-                        dcc.Graph(
-                            id='example-graph',
-                            figure=fig
-                        )
-                    ]),
-            ],
-        )
-    ]),
+                        dbc.CardHeader(html.H4("Accuracies")),
+                        dbc.CardBody(
+                            [
+                                dcc.Graph(
+                                    id='example-graph2',
+                                    figure=fig2
+                                )
+                            ]),
+                    ],
+                ),
+                sm=12,
+                md=5,
+            ),
+
+            dbc.Col(
+                dbc.Card(
+                    [
+                        dbc.CardHeader(html.H4("Accuracies")),
+                        dbc.CardBody(
+                            [
+                                dcc.Graph(
+                                    id='example-graph3',
+                                    figure=fig2
+                                )
+                            ]),
+                    ],
+                ),
+                sm=12,
+                md=7
+            ),
+        ],
+            className="dashboard-row"),
+
+        dbc.Row(
+            dbc.Card(
+                [
+                    dbc.CardHeader(html.H4("Scorecards")),
+                    dbc.CardBody(
+                        [
+                            dcc.Graph(
+                                id='example-graph4',
+                                figure=fig
+                            )
+                        ]),
+                ],
+            ),
+            className="dashboard-row"
+        ),
+
+    ],
+        sm=12,
+        md=12
+    ),
     id="dashboard"
 )

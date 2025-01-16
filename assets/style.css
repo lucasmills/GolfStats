@@ -12,3 +12,8 @@
     margin-left: 5rem;
     margin-right: 5rem;
 }
+.dashboard-row {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    --bs-gutter-x: 0rem;
+}
