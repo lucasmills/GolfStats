@@ -31,10 +31,9 @@ fig = px.line(golf_data,
               markers=True)
 
 fig.update_traces(hovertemplate="<br>".join([
-    "Date: %{x}",
     "Score: %{y}",
     "Course: %{customdata[0]}"]),
-    marker=dict(size=15))
+    marker=dict(size=10))
 
 
 dashboard = dbc.Row(
