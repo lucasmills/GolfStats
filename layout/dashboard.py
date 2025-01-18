@@ -141,6 +141,7 @@ dashboard = dbc.Row(
                 ),
                 sm=12,
                 md=6,
+                style={'padding-right': "5px"}
             ),
 
             dbc.Col(
@@ -157,7 +158,8 @@ dashboard = dbc.Row(
                     ],
                 ),
                 sm=12,
-                md=6
+                md=6,
+                style={'padding-left': "5px"}
             ),
         ],
             className="dashboard-row"),
