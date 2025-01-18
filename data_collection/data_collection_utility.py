@@ -88,6 +88,7 @@ def collect_score_and_calculate_points(scorecards, course_pars):
                               "Fairways": [fairways_hit],
                               "GIR": [greens_reached_in_regulation],
                               "Putts": [number_of_putts],
+                              "Birdies": [total_birdies_for_round],
                               "Pars": [total_pars_for_round],
                               "Bogeys": [total_bogeys_for_round],
                               "Doubles+": [total_doubles_plus_per_round]})
