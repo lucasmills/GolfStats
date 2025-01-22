@@ -7,11 +7,11 @@ import plotly.graph_objects as go
 
 from dash import dcc, html
 from dash_bootstrap_templates import load_figure_template
+from utils.data_load import load_data_util
 from utils.utility import generate_stats_card
 
 # Load golf data
-with open("data/golf_data.pkl", "rb") as f:
-    golf_data = pandas.read_pickle(f)
+golf_data = load_data_util("data/golf_data.pkl")
 
 # Get key stats for call out boxes
 num_rounds = golf_data.shape[0]
