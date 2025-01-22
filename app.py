@@ -9,7 +9,9 @@ from layout.navbar import navbar
 
 
 # Create plotly dashboard application
-app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
+app = Dash(__name__, external_stylesheets=[dbc.themes.LUX],
+           meta_tags=[{'name': 'viewport',
+                       'content': 'width=device-width, initial-scale=.5'}])
 
 # Application layout
 app.layout = html.Div(children=[
