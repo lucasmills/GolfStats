@@ -1,7 +1,7 @@
 # Navigation bar
 import dash_bootstrap_components as dbc
 import numpy
-import pickle
+import pandas
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -10,8 +10,8 @@ from dash_bootstrap_templates import load_figure_template
 from utils.utility import generate_stats_card
 
 # Load golf data
-with open("data\\golf_data.pkl", "rb") as f:
-    golf_data = pickle.load(f)
+with open("data/golf_data.pkl", "rb") as f:
+    golf_data = pandas.read_pickle(f)
 
 # Get key stats for call out boxes
 num_rounds = golf_data.shape[0]
