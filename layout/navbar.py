@@ -18,7 +18,7 @@ navbar = dbc.NavbarSimple(
                     alt="Source Code",
                     id="github-logo",
                 ),
-                href="https://github.com",
+                href="https://github.com/lucasmills/GolfStats",
                 target="_blank",
                 className="p-1",
             )

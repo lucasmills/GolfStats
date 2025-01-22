@@ -19,8 +19,50 @@
     text-align: right;
 }
 
+
 .dashboard-row {
     padding-top: 8px;
     padding-bottom: 8px;
     --bs-gutter-x: 0rem;
+}
+
+.dash-graph {
+    zoom: 0.25;
+  }
+
+  @media (min-width: 475px) {
+    .dash-graph {
+      zoom: 0.6;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .dash-graph {
+      zoom: 0.85;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .dash-graph {
+      zoom: 1;
+    }
+  }
+
+  @media only screen and max-width (920px) {
+     .dash-graph {
+        width: 100% !important;
+        height: 65% !important;
+        position: relative !important;
+    }
+}
+
+#design-area .dash-graph[style] {
+    flex-grow: 1 !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    width: 100% !important;
+    height: 50vh !important;
+    display: flex !important;
+    top: 0px !important;
+    left: 0px !important;
 }
