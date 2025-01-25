@@ -1,13 +1,14 @@
 # Navigation bar
 import dash_bootstrap_components as dbc
 import numpy
-import pandas
-import plotly.express as px
-import plotly.graph_objects as go
+
 
 from dash import dcc, html
 from dash_bootstrap_templates import load_figure_template
-from layout.figures.historic_data_line_graph import generate_historical_line_graph
+from layout.figures.historic_data_line_graph import \
+    generate_historical_line_graph
+from layout.figures.in_regulation_iqr_graph import generate_in_regulation_iqr
+from layout.figures.score_type_histogram import generate_score_type_histogram
 from utils.data_load import load_data_util
 from utils.generate_stats_card import generate_stats_card
 
@@ -26,24 +27,10 @@ LINE_WIDTH = 4
 # Set the template for all dashboard plots
 load_figure_template(["lux"])
 
+# Generate figures
 historical_line_graph = generate_historical_line_graph(golf_data, LINE_WIDTH)
-
-fig2 = px.box(golf_data, y=["Fairways", "GIR"])
-fig2.update_layout(xaxis_title="Category", yaxis_title="Achieved per round")
-
-
-fig3 = go.Figure()
-fig3.add_trace(go.Histogram(x=golf_data["Birdies"], name="Birdies"))
-fig3.add_trace(go.Histogram(x=golf_data["Pars"], name="Pars"))
-fig3.add_trace(go.Histogram(x=golf_data["Bogeys"], name="Bogeys"))
-fig3.add_trace(go.Histogram(x=golf_data["Doubles+"], name="Double+"))
-
-# Overlay both histograms
-fig3.update_layout(barmode="overlay")
-# Reduce opacity to see both histograms
-fig3.update_traces(opacity=0.75)
-
-fig3.update_layout(xaxis_title="Average per round", yaxis_title="Frequency")
+in_regulation_graph = generate_in_regulation_iqr(golf_data)
+score_type_histogram = generate_score_type_histogram(golf_data)
 
 
 dashboard = dbc.Row(
@@ -91,7 +78,7 @@ dashboard = dbc.Row(
                             [
                                 dcc.Graph(
                                     id='example-graph2',
-                                    figure=fig2
+                                    figure=in_regulation_graph
                                 )
                             ]),
                     ],
@@ -109,7 +96,7 @@ dashboard = dbc.Row(
                             [
                                 dcc.Graph(
                                     id='example-graph3',
-                                    figure=fig3
+                                    figure=in_regulation_graph
                                 )
                             ]),
                     ],
