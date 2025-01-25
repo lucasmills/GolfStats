@@ -88,4 +88,14 @@ def generate_historical_line_graph(golf_data, line_width):
         )
     )
 
+    fig.update_layout(
+        margin=dict(
+            l=50,
+            r=50,
+            b=50,
+            t=25,
+            pad=4
+        )
+    )
+
     return fig

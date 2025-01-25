@@ -32,6 +32,37 @@ historical_line_graph = generate_historical_line_graph(golf_data, LINE_WIDTH)
 in_regulation_graph = generate_in_regulation_iqr(golf_data)
 score_type_histogram = generate_score_type_histogram(golf_data)
 
+import pandas
+from plotly import graph_objects as go
+fig = go.Figure(data=[go.Table(header=dict(values=['A Scores', 'B Scores']),
+                 cells=dict(values=[[100, 90, 80, 90], [95, 85, 75, 95]]))
+                     ])
+
+all_data = pandas.read_excel("data/GolfData.xlsx")
+all_data["Date"] = all_data["Date"].astype(str)
+all_data = all_data.iloc[:, : 20]
+fig = go.Figure(
+    data=[go.Table(
+        columnwidth=[20, 20,
+                     10, 10, 10, 10, 10, 10, 10, 10, 10,
+                     10, 10, 10, 10, 10, 10, 10, 10, 10],
+        header=dict(values=["Course", "Date",
+                            "1", "2", "3", "4", "5", "6", "7" ,"8", "9",
+                            "10", "11", "12", "13", "14", "15", "16", "17",
+                            "18"]),
+        cells=dict(values=all_data.transpose()))
+    ])
+
+fig.update_layout(
+    autosize=True,
+    margin=dict(
+        l=0,
+        r=0,
+        b=0,
+        t=0,
+        pad=0
+    )
+)
 
 dashboard = dbc.Row(
     dbc.Col([
@@ -91,7 +122,7 @@ dashboard = dbc.Row(
             dbc.Col(
                 dbc.Card(
                     [
-                        dbc.CardHeader(html.H4("Scores per round")),
+                        dbc.CardHeader(html.H4("Scorecards")),
                         dbc.CardBody(
                             [
                                 dcc.Graph(
@@ -107,6 +138,46 @@ dashboard = dbc.Row(
             ),
         ],
             className="dashboard-row"),
+
+
+
+
+
+
+
+
+
+        dbc.Row([
+            dbc.Col(
+                dbc.Card(
+                    [
+                        dbc.CardHeader(html.H4("Scores per round")),
+                        dbc.CardBody(
+                            [
+                                dcc.Graph(
+                                    id='example-graph4',
+                                    figure=fig
+                                )
+                            ]),
+                    ],
+                ),
+                # sm=12,
+                # md=12,
+                # style={'padding-left': "5px"}
+            ),
+        ],
+            className="dashboard-row"),
+
+
+
+
+
+
+
+
+
+
+
 
     ],
         sm=12,
