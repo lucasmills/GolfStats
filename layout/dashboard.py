@@ -7,8 +7,9 @@ import plotly.graph_objects as go
 
 from dash import dcc, html
 from dash_bootstrap_templates import load_figure_template
+from layout.figures.historic_data_line_graph import generate_historical_line_graph
 from utils.data_load import load_data_util
-from utils.utility import generate_stats_card
+from utils.generate_stats_card import generate_stats_card
 
 # Load golf data
 golf_data = load_data_util("data/golf_data.pkl")
@@ -25,95 +26,7 @@ LINE_WIDTH = 4
 # Set the template for all dashboard plots
 load_figure_template(["lux"])
 
-# Plot score
-fig = go.Figure()
-
-# Score
-marker_color = ["grey", "grey"]
-marker_line_color = ["black", "black"]
-marker_symbol = ["diamond", "diamond"]
-rolling_avg = golf_data["Score"].rolling(window=2).mean().values
-num_rows = rolling_avg.size
-
-
-for i in range(2, num_rows):
-    marker_line_color.append("black")
-    if rolling_avg[i] == rolling_avg[i-1]:
-        marker_color.append("black")
-        marker_symbol.append("diamond")
-    elif rolling_avg[i] > rolling_avg[i-1]:
-        marker_color.append("red")
-        marker_symbol.append("arrow-bar-up")
-    else:
-        marker_color.append("green")
-        marker_symbol.append("arrow-bar-down")
-
-
-fig.add_trace(
-    go.Scatter(
-        x=golf_data["Date"],
-        y=golf_data["Score"],
-        line_width=LINE_WIDTH,
-        customdata=["Course"],
-        name="Score",
-    )
-)
-
-fig.add_trace(
-    go.Scatter(
-        x=golf_data["Date"],
-        y=rolling_avg,
-        customdata=["Course"],
-        name="Trend",
-        visible="legendonly",
-        line_color="darkblue",
-        line_dash="dash",
-        line_width=LINE_WIDTH,
-        marker_color=marker_color,
-        marker_line_color=marker_line_color,
-        marker_line_width=2,
-        marker_size=20,
-        marker_symbol=marker_symbol
-    )
-)
-
-
-# Fairways
-fig.add_trace(
-    go.Scatter(
-        x=golf_data["Date"],
-        y=golf_data["Fairways"],
-        name="Fairways",
-        visible="legendonly"
-    )
-)
-
-# Greens in regulation
-fig.add_trace(
-    go.Scatter(
-        x=golf_data["Date"],
-        y=golf_data["GIR"],
-        line_width=LINE_WIDTH,
-        name="Greens",
-        visible="legendonly"
-    )
-)
-
-# Putts
-fig.add_trace(
-    go.Scatter(
-        x=golf_data["Date"],
-        y=golf_data["Putts"],
-        line_width=LINE_WIDTH,
-        name="Putts",
-        visible="legendonly"
-    )
-)
-
-# fig.update_traces(hovertemplate="<br>".join([
-#     "Score: %{y}",
-#     "Course: %{customdata}"]),
-#     marker=dict(size=10))
+historical_line_graph = generate_historical_line_graph(golf_data, LINE_WIDTH)
 
 fig2 = px.box(golf_data, y=["Fairways", "GIR"])
 fig2.update_layout(xaxis_title="Category", yaxis_title="Achieved per round")
@@ -161,7 +74,7 @@ dashboard = dbc.Row(
                         [
                             dcc.Graph(
                                 id='example-graph1',
-                                figure=fig
+                                figure=historical_line_graph
                             )
                         ]),
                 ],
