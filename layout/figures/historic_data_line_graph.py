@@ -12,7 +12,7 @@ def generate_historical_line_graph(golf_data, line_width):
     # Score
     marker_color = ["grey", "grey"]
     marker_line_color = ["black", "black"]
-    marker_symbol = ["diamond", "diamond"]
+    marker_symbol = ["hash-dot", "hash-dot"]
     rolling_avg = golf_data["Score"].rolling(window=2).mean().values
     num_rows = rolling_avg.size
 
@@ -45,13 +45,13 @@ def generate_historical_line_graph(golf_data, line_width):
             customdata=["Course"],
             name="Trend",
             visible="legendonly",
-            line_color="darkblue",
+            line_color="black",
             line_dash="dash",
-            line_width=line_width,
+            line_width=1,
             marker_color=marker_color,
             marker_line_color=marker_line_color,
             marker_line_width=2,
-            marker_size=20,
+            marker_size=15,
             marker_symbol=marker_symbol
         )
     )

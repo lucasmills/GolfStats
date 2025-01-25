@@ -96,7 +96,7 @@ dashboard = dbc.Row(
                             [
                                 dcc.Graph(
                                     id='example-graph3',
-                                    figure=in_regulation_graph
+                                    figure=score_type_histogram
                                 )
                             ]),
                     ],
