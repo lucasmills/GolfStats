@@ -19,4 +19,14 @@ def generate_score_type_histogram(golf_data):
 
     fig.update_layout(xaxis_title="Average per round", yaxis_title="Frequency")
 
+    fig.update_layout(
+        margin=dict(
+            l=50,
+            r=50,
+            b=50,
+            t=25,
+            pad=4
+        )
+    )
+
     return fig

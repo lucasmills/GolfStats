@@ -22,15 +22,17 @@ avg_score_to_par = numpy.mean(golf_data["Score to par"])
 lowest_score = numpy.min(golf_data["Score"])
 courses_played = golf_data["Course"].nunique()
 
-LINE_WIDTH = 4
+line_width = 4
+graph_margin = dict(l=50, r=50, b=50, t=25, pad=4)
 
 # Set the template for all dashboard plots
 load_figure_template(["lux"])
 
 # Generate figures
-historical_line_graph = generate_historical_line_graph(golf_data, LINE_WIDTH)
-in_regulation_graph = generate_in_regulation_iqr(golf_data)
-score_type_histogram = generate_score_type_histogram(golf_data)
+historical_line_graph = \
+    generate_historical_line_graph(golf_data, line_width, graph_margin)
+in_regulation_graph = generate_in_regulation_iqr(golf_data, graph_margin)
+score_type_histogram = generate_score_type_histogram(golf_data, graph_margin)
 
 import pandas
 from plotly import graph_objects as go
