@@ -1,7 +1,7 @@
 # Navigation bar
 import dash_bootstrap_components as dbc
+import pandas
 import numpy
-
 
 from dash import dcc, html
 from dash_bootstrap_templates import load_figure_template
@@ -9,6 +9,7 @@ from layout.figures.historic_data_line_graph import \
     generate_historical_line_graph
 from layout.figures.in_regulation_iqr_graph import generate_in_regulation_iqr
 from layout.figures.score_type_histogram import generate_score_type_histogram
+from layout.figures.scorecard_table import generate_scorecard_table
 from utils.data_load import load_data_util
 from utils.generate_stats_card import generate_stats_card
 
@@ -22,49 +23,19 @@ avg_score_to_par = numpy.mean(golf_data["Score to par"])
 lowest_score = numpy.min(golf_data["Score"])
 courses_played = golf_data["Course"].nunique()
 
-line_width = 4
-graph_margin = dict(l=50, r=50, b=50, t=25, pad=4)
 
+margins = dict(l=50, r=50, b=50, t=25, pad=0)
 # Set the template for all dashboard plots
 load_figure_template(["lux"])
 
-# Generate figures
-historical_line_graph = \
-    generate_historical_line_graph(golf_data, line_width, graph_margin)
-in_regulation_graph = generate_in_regulation_iqr(golf_data, graph_margin)
-score_type_histogram = generate_score_type_histogram(golf_data, graph_margin)
-
-import pandas
-from plotly import graph_objects as go
-fig = go.Figure(data=[go.Table(header=dict(values=['A Scores', 'B Scores']),
-                 cells=dict(values=[[100, 90, 80, 90], [95, 85, 75, 95]]))
-                     ])
-
 all_data = pandas.read_excel("data/GolfData.xlsx")
-all_data["Date"] = all_data["Date"].astype(str)
-all_data = all_data.iloc[:, : 20]
-fig = go.Figure(
-    data=[go.Table(
-        columnwidth=[20, 20,
-                     10, 10, 10, 10, 10, 10, 10, 10, 10,
-                     10, 10, 10, 10, 10, 10, 10, 10, 10],
-        header=dict(values=["Course", "Date",
-                            "1", "2", "3", "4", "5", "6", "7" ,"8", "9",
-                            "10", "11", "12", "13", "14", "15", "16", "17",
-                            "18"]),
-        cells=dict(values=all_data.transpose()))
-    ])
 
-fig.update_layout(
-    autosize=True,
-    margin=dict(
-        l=0,
-        r=0,
-        b=0,
-        t=0,
-        pad=0
-    )
-)
+# Generate figures
+historical_line_graph = generate_historical_line_graph(golf_data, margins)
+in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
+score_type_histogram = generate_score_type_histogram(golf_data, margins)
+scorecards_table = generate_scorecard_table(all_data, margins)
+
 
 dashboard = dbc.Row(
     dbc.Col([
@@ -141,14 +112,6 @@ dashboard = dbc.Row(
         ],
             className="dashboard-row"),
 
-
-
-
-
-
-
-
-
         dbc.Row([
             dbc.Col(
                 dbc.Card(
@@ -158,7 +121,7 @@ dashboard = dbc.Row(
                             [
                                 dcc.Graph(
                                     id='example-graph4',
-                                    figure=fig
+                                    figure=scorecards_table
                                 )
                             ]),
                     ],

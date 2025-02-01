@@ -5,7 +5,8 @@ import plotly.graph_objects as go
 
 
 # Generator
-def generate_historical_line_graph(golf_data, line_width):
+def generate_historical_line_graph(golf_data, margins):
+    line_width = 4
     # Plot score
     fig = go.Figure()
 
@@ -89,13 +90,16 @@ def generate_historical_line_graph(golf_data, line_width):
     )
 
     fig.update_layout(
-        margin=dict(
-            l=50,
-            r=50,
-            b=50,
-            t=25,
-            pad=4
-        )
+        autosize=True,
+        margin=margins
     )
+
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="center",
+        x=1
+    ))
 
     return fig
