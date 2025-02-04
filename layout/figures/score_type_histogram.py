@@ -16,10 +16,14 @@ def generate_score_type_histogram(golf_data, margins):
 
     fig = go.Figure(layout=layout)
 
-    fig.add_trace(go.Histogram(x=golf_data["Birdies"], name="Birdies"))
+    fig.add_trace(go.Histogram(x=golf_data["Birdies"], name="Birdies",
+                               visible="legendonly"))
+    
     fig.add_trace(go.Histogram(x=golf_data["Pars"], name="Pars"))
     fig.add_trace(go.Histogram(x=golf_data["Bogeys"], name="Bogeys"))
-    fig.add_trace(go.Histogram(x=golf_data["Doubles+"], name="Double+"))
+
+    fig.add_trace(go.Histogram(x=golf_data["Doubles+"], name="Double+",
+                               visible="legendonly"))
 
     # Overlay both histograms
     fig.update_layout(barmode="overlay")
