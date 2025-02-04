@@ -24,7 +24,7 @@ lowest_score = numpy.min(golf_data["Score"])
 courses_played = golf_data["Course"].nunique()
 
 
-margins = dict(l=50, r=50, b=50, t=25, pad=0)
+margins = dict(l=60, r=60, b=60, t=25, pad=0)
 # Set the template for all dashboard plots
 load_figure_template(["lux"])
 

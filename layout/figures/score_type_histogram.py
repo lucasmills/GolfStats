@@ -6,7 +6,16 @@ import plotly.graph_objects as go
 
 # Generator
 def generate_score_type_histogram(golf_data, margins):
-    fig = go.Figure()
+    layout = go.Layout(
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=1.1
+        )
+    )
+
+    fig = go.Figure(layout=layout)
+
     fig.add_trace(go.Histogram(x=golf_data["Birdies"], name="Birdies"))
     fig.add_trace(go.Histogram(x=golf_data["Pars"], name="Pars"))
     fig.add_trace(go.Histogram(x=golf_data["Bogeys"], name="Bogeys"))
@@ -20,17 +29,8 @@ def generate_score_type_histogram(golf_data, margins):
     fig.update_layout(xaxis_title="Average per round", yaxis_title="Frequency")
 
     fig.update_layout(
-
         autosize=True,
         margin=margins
     )
-
-    fig.update_layout(legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=1.02,
-        xanchor="center",
-        x=1
-    ))
 
     return fig

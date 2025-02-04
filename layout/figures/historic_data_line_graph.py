@@ -8,7 +8,14 @@ import plotly.graph_objects as go
 def generate_historical_line_graph(golf_data, margins):
     line_width = 4
     # Plot score
-    fig = go.Figure()
+    layout = go.Layout(
+                legend=dict(
+                    orientation="h",
+                    yanchor="top",
+                    y=1.1
+                )
+    )
+    fig = go.Figure(layout=layout)
 
     # Score
     marker_color = ["grey", "grey"]
@@ -93,13 +100,5 @@ def generate_historical_line_graph(golf_data, margins):
         autosize=True,
         margin=margins
     )
-
-    fig.update_layout(legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=1.02,
-        xanchor="center",
-        x=1
-    ))
 
     return fig
