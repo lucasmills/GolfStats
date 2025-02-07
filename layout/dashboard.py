@@ -15,6 +15,11 @@ from utils.generate_stats_card import generate_stats_card
 
 # Load golf data
 golf_data = load_data_util("data/golf_data.pkl")
+all_data = pandas.read_excel(open("data/GolfData.xlsx", "rb"),
+                             sheet_name="Score Cards")
+par_data = pandas.read_excel(open("data/GolfData.xlsx", "rb"),
+                             sheet_name="Course Pars")
+
 
 # Get key stats for call out boxes
 num_rounds = golf_data.shape[0]
@@ -28,13 +33,12 @@ margins = dict(l=60, r=60, b=60, t=25, pad=0)
 # Set the template for all dashboard plots
 load_figure_template(["lux"])
 
-all_data = pandas.read_excel("data/GolfData.xlsx")
 
 # Generate figures
 historical_line_graph = generate_historical_line_graph(golf_data, margins)
 in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
 score_type_histogram = generate_score_type_histogram(golf_data, margins)
-scorecards_table = generate_scorecard_table(all_data, margins)
+scorecards_table = generate_scorecard_table(all_data, par_data, margins)
 
 
 dashboard = dbc.Row(
