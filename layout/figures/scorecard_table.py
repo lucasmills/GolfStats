@@ -20,7 +20,7 @@ def generate_scorecard_table(all_data, par_data, margins):
     per_list = all_data.shape[0]
 
     # Creating the list of lists
-    fill_color = [[f"grey" for i in range(per_list)] for _ in range(num_lists)]
+    fill_color = [[f"lightgrey" for i in range(per_list)] for _ in range(num_lists)]
 
     for i in range(0, len(fill_color)):
         if i < 2:
@@ -35,16 +35,15 @@ def generate_scorecard_table(all_data, par_data, margins):
             par = course_par[str(i-1)][0]
             to_par = score - par
             if to_par < 0:
-                color = "green"
+                color = "lightgreen"
             elif to_par == 0:
-                color = "blue"
+                color = "cornflowerblue"
             elif to_par == 1:
-                color = "yellow"
+                color = "khaki"
             else:
-                color = "red"
+                color = "lightcoral"
 
             fill_color[i][j] = color
-        a = 1
 
     all_data["Date"] = all_data["Date"].astype(str)
     all_data = all_data.iloc[:, : 20]

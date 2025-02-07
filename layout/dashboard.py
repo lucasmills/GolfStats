@@ -99,7 +99,7 @@ dashboard = dbc.Row(
             dbc.Col(
                 dbc.Card(
                     [
-                        dbc.CardHeader(html.H4("Scorecards")),
+                        dbc.CardHeader(html.H4("Scores per Round")),
                         dbc.CardBody(
                             [
                                 dcc.Graph(
@@ -120,7 +120,7 @@ dashboard = dbc.Row(
             dbc.Col(
                 dbc.Card(
                     [
-                        dbc.CardHeader(html.H4("Scores per round")),
+                        dbc.CardHeader(html.H4("Scorecards")),
                         dbc.CardBody(
                             [
                                 dcc.Graph(
