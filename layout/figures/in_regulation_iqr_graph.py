@@ -9,7 +9,14 @@ def generate_in_regulation_iqr(golf_data, margins):
 
     fig.update_layout(
         autosize=True,
-        margin=margins
+        margin=margins,
+        updatemenus=[{
+            'buttons': [{
+                'args': ['mode', 'pan'],
+                'label': 'Pan',
+                'method': 'relayout'
+            }]
+        }]
     )
 
     return fig

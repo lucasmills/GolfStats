@@ -17,13 +17,18 @@ def generate_score_type_histogram(golf_data, margins):
     fig = go.Figure(layout=layout)
 
     fig.add_trace(go.Histogram(x=golf_data["Birdies"], name="Birdies",
-                               visible="legendonly"))
+                               visible="legendonly",
+                               marker=dict(color="lightgreen")))
     
-    fig.add_trace(go.Histogram(x=golf_data["Pars"], name="Pars"))
-    fig.add_trace(go.Histogram(x=golf_data["Bogeys"], name="Bogeys"))
+    fig.add_trace(go.Histogram(x=golf_data["Pars"], name="Pars",
+                               marker=dict(color="skyblue")))
+
+    fig.add_trace(go.Histogram(x=golf_data["Bogeys"], name="Bogeys",
+                               marker=dict(color="khaki")))
 
     fig.add_trace(go.Histogram(x=golf_data["Doubles+"], name="Double+",
-                               visible="legendonly"))
+                               visible="legendonly",
+                               marker=dict(color="lightcoral")))
 
     # Overlay both histograms
     fig.update_layout(barmode="overlay")
@@ -34,7 +39,14 @@ def generate_score_type_histogram(golf_data, margins):
 
     fig.update_layout(
         autosize=True,
-        margin=margins
+        margin=margins,
+        updatemenus=[{
+            'buttons': [{
+                'args': ['mode', 'pan'],
+                'label': 'Pan',
+                'method': 'relayout'
+            }]
+        }]
     )
 
     return fig

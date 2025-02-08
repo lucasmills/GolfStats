@@ -98,7 +98,14 @@ def generate_historical_line_graph(golf_data, margins):
 
     fig.update_layout(
         autosize=True,
-        margin=margins
+        margin=margins,
+        updatemenus=[{
+            'buttons': [{
+                'args': ['mode', 'pan'],
+                'label': 'Pan',
+                'method': 'relayout'
+            }]
+        }]
     )
 
     return fig
