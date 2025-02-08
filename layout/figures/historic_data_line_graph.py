@@ -13,7 +13,8 @@ def generate_historical_line_graph(golf_data, margins):
                     orientation="h",
                     yanchor="top",
                     y=1.1
-                )
+                ),
+        dragmode="pan"
     )
     fig = go.Figure(layout=layout)
 
@@ -98,14 +99,7 @@ def generate_historical_line_graph(golf_data, margins):
 
     fig.update_layout(
         autosize=True,
-        margin=margins,
-        updatemenus=[{
-            'buttons': [{
-                'args': ['mode', 'pan'],
-                'label': 'Pan',
-                'method': 'relayout'
-            }]
-        }]
+        margin=margins
     )
 
     return fig
