@@ -7,8 +7,10 @@ from plotly import graph_objects as go
 def generate_scorecard_table(all_data, par_data, margins):
     all_data = all_data.sort_values("Date", ascending=False)
 
-    num_lists = 20
+    num_lists = 21
     per_list = all_data.shape[0]
+
+    small_size = 6
 
     # Creating the list of lists
     fill_color = [[f"lightgrey" for i in range(per_list)] for _ in range(num_lists)]
@@ -16,7 +18,8 @@ def generate_scorecard_table(all_data, par_data, margins):
     for i in range(0, len(fill_color)):
         if i < 2:
             continue
-
+        if i == len(fill_color)-1:
+            continue
         for j in range(0, len(fill_color[i])):
             course = all_data.iloc[j]["Course"]
             score = all_data.iloc[j][str(i-1)]
@@ -37,16 +40,20 @@ def generate_scorecard_table(all_data, par_data, margins):
 
     all_data["Date"] = all_data["Date"].astype(str)
     all_data = all_data.iloc[:, : 20]
+    all_data["T"] = all_data.iloc[:, 2:20].sum(axis=1)
     fig = go.Figure(
         data=[go.Table(
-            columnwidth=[20, 20,
-                         10, 10, 10, 10, 10, 10, 10, 10, 10,
-                         10, 10, 10, 10, 10, 10, 10, 10, 10],
+            columnwidth=[25, 25,
+                         small_size, small_size, small_size, small_size,
+                         small_size, small_size, small_size, small_size,
+                         small_size, small_size, small_size, small_size,
+                         small_size, small_size, small_size, small_size,
+                         small_size, small_size, small_size],
 
             header=dict(values=["Course", "Date",
                                 "1", "2", "3", "4", "5", "6", "7", "8", "9",
                                 "10", "11", "12", "13", "14", "15", "16", "17",
-                                "18"],
+                                "18", "T"],
                         line_color="darkslategray",
                         fill_color="grey",
                         font=dict(color="white")
@@ -59,7 +66,7 @@ def generate_scorecard_table(all_data, par_data, margins):
         )
         ])
 
-    margins = dict(l=10, r=10, b=10, t=10, pad=0)
+    margins = dict(l=2, r=2, b=2, t=2, pad=0)
     fig.update_layout(
         autosize=True,
         margin=margins
