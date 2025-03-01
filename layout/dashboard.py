@@ -23,8 +23,8 @@ par_data = pandas.read_excel(open("data/GolfData.xlsx", "rb"),
 
 # Get key stats for call out boxes
 num_rounds = golf_data.shape[0]
-avg_score = numpy.mean(golf_data["Score"])
-avg_score_to_par = numpy.mean(golf_data["Score to par"])
+avg_score = round(numpy.mean(golf_data["Score"]), 1)
+avg_score_to_par = round(numpy.mean(golf_data["Score to par"]), 1)
 lowest_score = numpy.min(golf_data["Score"])
 courses_played = golf_data["Course"].nunique()
 
