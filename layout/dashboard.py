@@ -137,17 +137,6 @@ dashboard = dbc.Row(
         ],
             className="dashboard-row"),
 
-
-
-
-
-
-
-
-
-
-
-
     ],
         sm=12,
         md=12
