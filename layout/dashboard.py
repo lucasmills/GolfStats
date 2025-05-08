@@ -10,6 +10,7 @@ from layout.figures.historic_data_line_graph import \
 from layout.figures.in_regulation_iqr_graph import generate_in_regulation_iqr
 from layout.figures.score_type_histogram import generate_score_type_histogram
 from layout.figures.scorecard_table import generate_scorecard_table
+from utils.calculate_handicap import calculate_handicap
 from utils.data_load import load_data_util
 from utils.generate_stats_card import generate_stats_card
 
@@ -27,6 +28,7 @@ avg_score = round(numpy.mean(golf_data["Score"]), 1)
 avg_score_to_par = round(numpy.mean(golf_data["Score to par"]), 1)
 lowest_score = numpy.min(golf_data["Score"])
 courses_played = golf_data["Course"].nunique()
+handicap = calculate_handicap(golf_data, par_data)
 
 
 margins = dict(l=60, r=60, b=60, t=25, pad=0)
@@ -51,8 +53,8 @@ dashboard = dbc.Row(
             dbc.Col(generate_stats_card("Average strokes ", avg_score)),
 
             # Average score to par
-            dbc.Col(generate_stats_card("Average handicap ",
-                                        avg_score_to_par)),
+            dbc.Col(generate_stats_card("Handicap ",
+                                        handicap)),
 
             # Lowest score
             dbc.Col(generate_stats_card("Lowest score ", lowest_score)),
