@@ -3,6 +3,7 @@
 import numpy
 from heapq import nsmallest
 
+
 def calculate_handicap(scores, par_data):
 
     ordered_scores = scores.sort_values("Date", ascending=False)
