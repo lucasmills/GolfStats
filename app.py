@@ -13,6 +13,9 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.LUX],
            meta_tags=[{'name': 'viewport',
                        'content': 'width=device-width, initial-scale=.5'}])
 
+app.title = "Mills Golf Stats"
+app._favicon = "golf_ball.ico"
+
 # Application layout
 app.layout = html.Div(children=[
     navbar,
