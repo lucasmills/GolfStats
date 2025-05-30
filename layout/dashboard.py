@@ -8,6 +8,7 @@ from dash_bootstrap_templates import load_figure_template
 from layout.figures.historic_data_line_graph import \
     generate_historical_line_graph
 from layout.figures.in_regulation_iqr_graph import generate_in_regulation_iqr
+from layout.figures.round_analysis_radar import generate_round_analysis_radar
 from layout.figures.score_type_histogram import generate_score_type_histogram
 from layout.figures.scorecard_table import generate_scorecard_table
 from utils.calculate_handicap import calculate_handicap
@@ -39,6 +40,12 @@ load_figure_template(["lux"])
 # Generate figures
 historical_line_graph = generate_historical_line_graph(golf_data, margins)
 in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
+round_analysis_radar = generate_round_analysis_radar()
+round_analysis_radar.update_layout(
+    autosize=False,
+    width=700,  # Adjust as needed
+    height=700  # Adjust as needed
+)
 score_type_histogram = generate_score_type_histogram(golf_data, margins)
 scorecards_table = generate_scorecard_table(all_data, par_data, margins)
 
@@ -76,6 +83,31 @@ dashboard = dbc.Row(
                         ]),
                 ],
             ),
+            className="dashboard-row"
+        ),
+
+        # Round analysis
+        dbc.Row([
+            dbc.Col(
+                dbc.Card(
+                    [
+                        dbc.CardHeader(html.H4("Round Analysis")),
+                        dbc.CardBody(
+                            [
+                                dcc.Graph(
+                                    id='example-graph99',
+                                    figure=round_analysis_radar,
+                                    style={"height": "100%", "width": "100%", "flex": "1", "display": "flex"}
+                                )
+                            ],
+                        ),
+                    ],
+                ),
+                sm=12,
+                md=6,
+                style={'padding-right': "5px"}
+            )
+        ],
             className="dashboard-row"
         ),
 
