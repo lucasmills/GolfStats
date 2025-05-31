@@ -40,7 +40,7 @@ load_figure_template(["lux"])
 # Generate figures
 historical_line_graph = generate_historical_line_graph(golf_data, margins)
 in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
-round_analysis_radar = generate_round_analysis_radar()
+round_analysis_radar = generate_round_analysis_radar(golf_data)
 round_analysis_radar.update_layout(
     autosize=False,
     width=700,  # Adjust as needed
