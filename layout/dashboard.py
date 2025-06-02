@@ -43,8 +43,8 @@ in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
 round_analysis_radar = generate_round_analysis_radar(golf_data)
 round_analysis_radar.update_layout(
     autosize=False,
-    width=700,  # Adjust as needed
-    height=700  # Adjust as needed
+    width=1400,  # Adjust as needed
+    height=800  # Adjust as needed
 )
 score_type_histogram = generate_score_type_histogram(golf_data, margins)
 scorecards_table = generate_scorecard_table(all_data, par_data, margins)
