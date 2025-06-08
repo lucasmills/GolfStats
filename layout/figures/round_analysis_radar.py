@@ -180,10 +180,10 @@ def generate_round_analysis_radar(data):
         r=average_values,
         theta=categories,
         fill="toself",
-        line=dict(color='red', width=2),  # Change line color and width
-        marker=dict(color='red', size=8),  # Change marker color
+        line=dict(color='black', width=2),  # Change line color and width
+        marker=dict(color='black', size=8),  # Change marker color
         name="Average",
-        fillcolor="rgba(255, 0, 0, 0.175)"
+        fillcolor="rgba(128, 128, 128, 0.175)"
     ))
 
     # Plot the latest round
