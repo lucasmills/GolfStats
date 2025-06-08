@@ -86,6 +86,50 @@ def generate_round_analysis_radar(data):
                       scaled_mean_bsob,
                       scaled_mean_fairways]
 
+    # BEST ROUND
+    min_value = data["Score"].min()
+    data_for_best_score = data[data["Score"] == min_value]
+
+    scaled_best_score = scale_value(value=data_for_best_score["Score"][0],
+                                    orig_min=data["Score"].min(),
+                                    orig_max=data["Score"].max(),
+                                    new_min=100,
+                                    new_max=20)
+
+    scaled_best_fairways = scale_value(value=data_for_best_score["Fairways"][0],
+                                       orig_min=data["Fairways"].min(),
+                                       orig_max=data["Fairways"].max(),
+                                       new_min=20,
+                                       new_max=100)
+
+    scaled_best_gir = scale_value(value=data_for_best_score["GIR"][0],
+                                  orig_min=data["GIR"].min(),
+                                  orig_max=data["GIR"].max(),
+                                  new_min=20,
+                                  new_max=100)
+
+    scaled_best_putts = scale_value(value=data_for_best_score["Putts"][0],
+                                    orig_min=data["Putts"].min(),
+                                    orig_max=data["Putts"].max(),
+                                    new_min=100,
+                                    new_max=20)
+
+    scaled_best_bsob = scale_value(value=data_for_best_score["BetterSideOfBogey"][0],
+                                   orig_min=data["BetterSideOfBogey"].min(),
+                                   orig_max=data["BetterSideOfBogey"].max(),
+                                   new_min=20,
+                                   new_max=100)
+
+    best_data = [scaled_best_fairways,
+                 scaled_best_score,
+                 scaled_best_gir,
+                 scaled_best_putts,
+                 scaled_best_bsob,
+                 scaled_best_fairways]
+
+    best_date = data["Date"].iloc[-1]
+    best_date_string = best_date.strftime("%Y-%B-%d")
+
     # MOST RECENT ROUND
     # Values to plot
     scaled_latest_score = scale_value(value=data["Score"].iloc[-1],
@@ -113,10 +157,10 @@ def generate_round_analysis_radar(data):
                                       new_max=20)
 
     scaled_latest_bsob = scale_value(value=data["BetterSideOfBogey"].iloc[-1],
-                                    orig_min=data["BetterSideOfBogey"].min(),
-                                    orig_max=data["BetterSideOfBogey"].max(),
-                                    new_min=20,
-                                    new_max=100)
+                                     orig_min=data["BetterSideOfBogey"].min(),
+                                     orig_max=data["BetterSideOfBogey"].max(),
+                                     new_min=20,
+                                     new_max=100)
 
     latest_data = [scaled_latest_fairways,
                    scaled_latest_score,
@@ -136,8 +180,10 @@ def generate_round_analysis_radar(data):
         r=average_values,
         theta=categories,
         fill="toself",
+        line=dict(color='red', width=2),  # Change line color and width
+        marker=dict(color='red', size=8),  # Change marker color
         name="Average",
-        fillcolor="rgba(173, 216, 230, 0.25)"
+        fillcolor="rgba(255, 0, 0, 0.175)"
     ))
 
     # Plot the latest round
@@ -145,10 +191,22 @@ def generate_round_analysis_radar(data):
         r=latest_data,
         theta=categories,
         fill="toself",
+        line=dict(color='darkblue', width=2),  # Change line color and width
+        marker=dict(color='blue', size=8),  # Change marker color
+        name=latest_date_string,
+        fillcolor="rgba(173, 216, 230, 0.25)"
+    ))
+
+    # Plot the best round
+    fig.add_trace(go.Scatterpolar(
+        r=best_data,
+        theta=categories,
+        fill="toself",
         line=dict(color='darkgreen', width=2),  # Change line color and width
         marker=dict(color='green', size=8),  # Change marker color
-        name=latest_date_string,
-        fillcolor="rgba(144, 238, 144, 0.25)"
+        name="Best (" + best_date_string + ")",
+        fillcolor="rgba(144, 238, 144, 0.25)",
+        visible="legendonly"
     ))
 
     # Ensure each axis has its reference levels **without duplication**

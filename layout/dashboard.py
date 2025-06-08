@@ -92,7 +92,8 @@ dashboard = dbc.Row(
                                 dcc.Graph(
                                     id='example-graph99',
                                     figure=round_analysis_radar,
-                                    style={"height": "800px", "width": "100%", "flex": "1", "display": "flex"}
+                                    config={'displayModeBar': False},
+                                    style={"height": "700px", "width": "100%", "flex": "1", "display": "flex"}
                                 ),
 
                                 html.Div(style={"flex-grow": 1}),
@@ -100,7 +101,7 @@ dashboard = dbc.Row(
                                 # Small text at the bottom
                                 html.P("BSOB (Better side of Bogey) = ratio of holes better than to worse than bogey",
                                        className="card-text",
-                                       style={"font-size": "12px", "color": "gray", "text-align": "center"})
+                                       style={"font-size": "12px", "color": "gray", "text-align": "left"})
                             ],
                         ),
                     ],
@@ -109,69 +110,9 @@ dashboard = dbc.Row(
                 md=12,
                 style={'padding-right': "5px"}
             ),
-
-            # dbc.Col(
-            #     dbc.Card(
-            #         [
-            #             dbc.CardHeader(html.H4("In regulation")),
-            #             dbc.CardBody(
-            #                 [
-            #                     dcc.Graph(
-            #                         id='example-graph2',
-            #                         figure=in_regulation_graph,
-            #                         style={"height": "800px"}
-            #                     )
-            #                 ]),
-            #         ],
-            #     ),
-            #     sm=12,
-            #     md=4,
-            #     style={'padding-right': "5px"}
-            # )
-
-
         ],
             className="dashboard-row"
         ),
-
-        # dbc.Row([
-        #     dbc.Col(
-        #         dbc.Card(
-        #             [
-        #                 dbc.CardHeader(html.H4("In regulation")),
-        #                 dbc.CardBody(
-        #                     [
-        #                         dcc.Graph(
-        #                             id='example-graph2',
-        #                             figure=in_regulation_graph
-        #                         )
-        #                     ]),
-        #             ],
-        #         ),
-        #         sm=12,
-        #         md=6,
-        #         style={'padding-right': "5px"}
-        #     ),
-        #
-        #     dbc.Col(
-        #         dbc.Card(
-        #             [
-        #                 dbc.CardHeader(html.H4("Scores per Round")),
-        #                 dbc.CardBody(
-        #                     [
-        #                         dcc.Graph(
-        #                             id='example-graph3',
-        #                             figure=score_type_histogram
-        #                         )
-        #                     ]),
-        #             ],
-        #         ),
-        #         sm=12,
-        #         md=6,
-        #         style={'padding-left': "5px"}
-        #     ),
-        # ],
-        #     className="dashboard-row"),
 
         dbc.Row([
             dbc.Col(
@@ -187,9 +128,6 @@ dashboard = dbc.Row(
                             ]),
                     ],
                 ),
-                # sm=12,
-                # md=12,
-                # style={'padding-left': "5px"}
             ),
         ],
             className="dashboard-row"),
