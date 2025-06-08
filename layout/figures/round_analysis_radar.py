@@ -127,7 +127,7 @@ def generate_round_analysis_radar(data):
                  scaled_best_bsob,
                  scaled_best_fairways]
 
-    best_date = data["Date"].iloc[-1]
+    best_date = data_for_best_score["Date"][0]
     best_date_string = best_date.strftime("%Y-%B-%d")
 
     # MOST RECENT ROUND
@@ -175,6 +175,17 @@ def generate_round_analysis_radar(data):
     # Create the figure
     fig = go.Figure()
 
+    # Plot the latest round
+    fig.add_trace(go.Scatterpolar(
+        r=latest_data,
+        theta=categories,
+        fill="toself",
+        line=dict(color='darkblue', width=2),  # Change line color and width
+        marker=dict(color='blue', size=8),  # Change marker color
+        name="Latest (" + latest_date_string + ")",
+        fillcolor="rgba(173, 216, 230, 0.25)"
+    ))
+
     # Plot the averages
     fig.add_trace(go.Scatterpolar(
         r=average_values,
@@ -184,17 +195,6 @@ def generate_round_analysis_radar(data):
         marker=dict(color='black', size=8),  # Change marker color
         name="Average",
         fillcolor="rgba(128, 128, 128, 0.175)"
-    ))
-
-    # Plot the latest round
-    fig.add_trace(go.Scatterpolar(
-        r=latest_data,
-        theta=categories,
-        fill="toself",
-        line=dict(color='darkblue', width=2),  # Change line color and width
-        marker=dict(color='blue', size=8),  # Change marker color
-        name=latest_date_string,
-        fillcolor="rgba(173, 216, 230, 0.25)"
     ))
 
     # Plot the best round
