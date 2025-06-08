@@ -22,10 +22,18 @@ def collect_score_and_calculate_points(scorecards, course_pars):
     """
 
     # Comment
-    golf_history = pandas.DataFrame(columns=["Date", "Course", "Score",
-                                             "Points", "Fairways", "GIR",
-                                             "Putts", "Birdies", "Pars",
-                                             "Bogeys", "Doubles+"])
+    golf_history = pandas.DataFrame(columns=["Date",
+                                             "Course",
+                                             "Score",
+                                             "Points",
+                                             "Fairways",
+                                             "GIR",
+                                             "Putts",
+                                             "Birdies",
+                                             "Pars",
+                                             "Bogeys",
+                                             "Doubles+",
+                                             "BetterSideOfBogey"])
 
     # Comment
     for card, _ in scorecards.iterrows():
@@ -78,7 +86,10 @@ def collect_score_and_calculate_points(scorecards, course_pars):
             elif hole_points == 0:
                 total_doubles_plus_per_round += 1
 
-        # Comment
+        # Create pars and better to doubles and worse metric
+        better_side_of_bogey = (total_birdies_for_round + total_pars_for_round) / total_doubles_plus_per_round
+
+        # Combine round stats
         round_score = \
             pandas.DataFrame({"Date": [date_played],
                               "Course": [course],
@@ -91,7 +102,8 @@ def collect_score_and_calculate_points(scorecards, course_pars):
                               "Birdies": [total_birdies_for_round],
                               "Pars": [total_pars_for_round],
                               "Bogeys": [total_bogeys_for_round],
-                              "Doubles+": [total_doubles_plus_per_round]})
+                              "Doubles+": [total_doubles_plus_per_round],
+                              "BetterSideOfBogey": [better_side_of_bogey]})
 
         # Comment
         golf_history = pandas.concat([golf_history, round_score])

@@ -12,7 +12,7 @@ def generate_round_analysis_radar(data):
                   "   Score   ",
                   "   GIR   ",
                   "   Putts   ",
-                  "   Skill   ",
+                  "   BSOB   ",
                   "   Fairways   "]
 
     # Radius values to label
@@ -35,14 +35,16 @@ def generate_round_analysis_radar(data):
                              data["Putts"].min(),
                              num=5)
 
-    other_axes = np.linspace(0, 100, num=5)
+    bsob_axes = np.linspace(data["BetterSideOfBogey"].min(),
+                            data["BetterSideOfBogey"].max(),
+                            num=5)
 
     category_axes = {
         "   Score   ": score_axes,
         "   Fairways   ": fairways_axes,
         "   GIR   ": gir_axes,
         "   Putts   ": putts_axes,
-        "   Skill   ": other_axes
+        "   BSOB   ": bsob_axes
     }
 
     # AVERAGES
@@ -71,11 +73,17 @@ def generate_round_analysis_radar(data):
                                     new_min=100,
                                     new_max=20)
 
+    scaled_mean_bsob = scale_value(value=data["BetterSideOfBogey"].mean(),
+                                   orig_min=data["BetterSideOfBogey"].min(),
+                                   orig_max=data["BetterSideOfBogey"].max(),
+                                   new_min=20,
+                                   new_max=100)
+
     average_values = [scaled_mean_fairways,
                       scaled_mean_score,
                       scaled_mean_gir,
                       scaled_mean_putts,
-                      80,
+                      scaled_mean_bsob,
                       scaled_mean_fairways]
 
     # MOST RECENT ROUND
@@ -104,11 +112,17 @@ def generate_round_analysis_radar(data):
                                       new_min=100,
                                       new_max=20)
 
+    scaled_latest_bsob = scale_value(value=data["BetterSideOfBogey"].iloc[-1],
+                                    orig_min=data["BetterSideOfBogey"].min(),
+                                    orig_max=data["BetterSideOfBogey"].max(),
+                                    new_min=20,
+                                    new_max=100)
+
     latest_data = [scaled_latest_fairways,
                    scaled_latest_score,
                    scaled_latest_gir,
                    scaled_latest_putts,
-                   80,
+                   scaled_latest_bsob,
                    scaled_latest_fairways]
 
     latest_date = data["Date"].iloc[-1]
