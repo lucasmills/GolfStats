@@ -41,11 +41,6 @@ load_figure_template(["lux"])
 historical_line_graph = generate_historical_line_graph(golf_data, margins)
 in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
 round_analysis_radar = generate_round_analysis_radar(golf_data)
-round_analysis_radar.update_layout(
-    autosize=False,
-    width=1400,  # Adjust as needed
-    height=800  # Adjust as needed
-)
 score_type_histogram = generate_score_type_histogram(golf_data, margins)
 scorecards_table = generate_scorecard_table(all_data, par_data, margins)
 
@@ -97,21 +92,17 @@ dashboard = dbc.Row(
                                 dcc.Graph(
                                     id='example-graph99',
                                     figure=round_analysis_radar,
-                                    style={"height": "100%", "width": "100%", "flex": "1", "display": "flex"}
+                                    style={"height": "800px", "width": "100%", "flex": "1", "display": "flex"}
                                 )
                             ],
                         ),
                     ],
                 ),
                 sm=12,
-                md=6,
+                md=8,
                 style={'padding-right': "5px"}
-            )
-        ],
-            className="dashboard-row"
-        ),
+            ),
 
-        dbc.Row([
             dbc.Col(
                 dbc.Card(
                     [
@@ -120,35 +111,60 @@ dashboard = dbc.Row(
                             [
                                 dcc.Graph(
                                     id='example-graph2',
-                                    figure=in_regulation_graph
+                                    figure=in_regulation_graph,
+                                    style={"height": "800px"}
                                 )
                             ]),
                     ],
                 ),
                 sm=12,
-                md=6,
+                md=4,
                 style={'padding-right': "5px"}
-            ),
+            )
 
-            dbc.Col(
-                dbc.Card(
-                    [
-                        dbc.CardHeader(html.H4("Scores per Round")),
-                        dbc.CardBody(
-                            [
-                                dcc.Graph(
-                                    id='example-graph3',
-                                    figure=score_type_histogram
-                                )
-                            ]),
-                    ],
-                ),
-                sm=12,
-                md=6,
-                style={'padding-left': "5px"}
-            ),
+
         ],
-            className="dashboard-row"),
+            className="dashboard-row"
+        ),
+
+        # dbc.Row([
+        #     dbc.Col(
+        #         dbc.Card(
+        #             [
+        #                 dbc.CardHeader(html.H4("In regulation")),
+        #                 dbc.CardBody(
+        #                     [
+        #                         dcc.Graph(
+        #                             id='example-graph2',
+        #                             figure=in_regulation_graph
+        #                         )
+        #                     ]),
+        #             ],
+        #         ),
+        #         sm=12,
+        #         md=6,
+        #         style={'padding-right': "5px"}
+        #     ),
+        #
+        #     dbc.Col(
+        #         dbc.Card(
+        #             [
+        #                 dbc.CardHeader(html.H4("Scores per Round")),
+        #                 dbc.CardBody(
+        #                     [
+        #                         dcc.Graph(
+        #                             id='example-graph3',
+        #                             figure=score_type_histogram
+        #                         )
+        #                     ]),
+        #             ],
+        #         ),
+        #         sm=12,
+        #         md=6,
+        #         style={'padding-left': "5px"}
+        #     ),
+        # ],
+        #     className="dashboard-row"),
 
         dbc.Row([
             dbc.Col(

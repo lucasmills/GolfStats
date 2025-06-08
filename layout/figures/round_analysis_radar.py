@@ -8,8 +8,12 @@ from utils.scale_values import scale_value
 
 def generate_round_analysis_radar(data):
     # Categories to plot
-    categories = ["Score", "Fairways", "GIR", "Putts", 'Skill']
-    categories.append(categories[0])
+    categories = ["   Fairways   ",
+                  "   Score   ",
+                  "   GIR   ",
+                  "   Putts   ",
+                  "   Skill   ",
+                  "   Fairways   "]
 
     # Radius values to label
     reference_levels = [20, 40, 60, 80, 100]
@@ -34,11 +38,11 @@ def generate_round_analysis_radar(data):
     other_axes = np.linspace(0, 100, num=5)
 
     category_axes = {
-        "Score": score_axes,
-        "Fairways": fairways_axes,
-        "GIR": gir_axes,
-        "Putts": putts_axes,
-        "Skill": other_axes
+        "   Score   ": score_axes,
+        "   Fairways   ": fairways_axes,
+        "   GIR   ": gir_axes,
+        "   Putts   ": putts_axes,
+        "   Skill   ": other_axes
     }
 
     # AVERAGES
@@ -67,9 +71,12 @@ def generate_round_analysis_radar(data):
                                     new_min=100,
                                     new_max=20)
 
-    average_values = [scaled_mean_score, scaled_mean_fairways, scaled_mean_gir, scaled_mean_putts, 80]
-
-    average_values.append(average_values[0])  # Repeat the first value at the end
+    average_values = [scaled_mean_fairways,
+                      scaled_mean_score,
+                      scaled_mean_gir,
+                      scaled_mean_putts,
+                      80,
+                      scaled_mean_fairways]
 
     # MOST RECENT ROUND
     # Values to plot
@@ -97,8 +104,13 @@ def generate_round_analysis_radar(data):
                                       new_min=100,
                                       new_max=20)
 
-    lastest_data = [scaled_latest_score, scaled_latest_fairways, scaled_latest_gir, scaled_latest_putts, 80]
-    lastest_data.append(lastest_data[0])  # Repeat the first value at the end
+    latest_data = [scaled_latest_fairways,
+                   scaled_latest_score,
+                   scaled_latest_gir,
+                   scaled_latest_putts,
+                   80,
+                   scaled_latest_fairways]
+
     latest_date = data["Date"].iloc[-1]
     latest_date_string = latest_date.strftime("%Y-%B-%d")
 
@@ -116,9 +128,11 @@ def generate_round_analysis_radar(data):
 
     # Plot the latest round
     fig.add_trace(go.Scatterpolar(
-        r=lastest_data,
+        r=latest_data,
         theta=categories,
         fill="toself",
+        line=dict(color='darkgreen', width=2),  # Change line color and width
+        marker=dict(color='green', size=8),  # Change marker color
         name=latest_date_string,
         fillcolor="rgba(144, 238, 144, 0.25)"
     ))
@@ -141,9 +155,7 @@ def generate_round_analysis_radar(data):
             fig.update_layout(
                 polar=dict(
                     angularaxis=dict(
-                        tickfont=dict(size=22),
-                        categoryarray=categories[:-1],  # Arrange labels manually
-                        categoryorder='array'
+                        tickfont=dict(size=22)
                     ),
 
                     radialaxis=dict(
@@ -154,20 +166,14 @@ def generate_round_analysis_radar(data):
                         range=[0, 100]
                     )
                 ),
+
                 legend=dict(
+                    orientation="h",
+                    yanchor="top",
+                    y=1.1,
                     font=dict(size=18)
                 ),
                 showlegend=True
             )
-
-    for idx, category in enumerate(categories[:-1]):  # Exclude repeated label
-        fig.add_annotation(
-            x=np.cos(np.radians(idx * (360 / (len(categories) - 1)))) * 1.4,  # Move further outward
-            y=np.sin(np.radians(idx * (360 / (len(categories) - 1)))) * 1.4,
-            text=category,
-            showarrow=False,
-            font=dict(size=20),
-            standoff=100  # Adds extra space between text and plot
-        )
 
     return fig
