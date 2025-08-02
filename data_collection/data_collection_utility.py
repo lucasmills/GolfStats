@@ -60,7 +60,7 @@ def collect_score_and_calculate_points(scorecards, course_pars):
 
         # Comment
         for hole in GOLF_HOLES:
-            hole_par = course_par[str(hole)]
+            hole_par = course_par[str(hole)].iloc[0]
             hole_score = scorecard_data[str(hole)]
             hole_score_to_par = hole_score - hole_par
 
@@ -70,9 +70,11 @@ def collect_score_and_calculate_points(scorecards, course_pars):
             # Comment
             try:
                 hole_score_type = GOLF_SCORES_FOR_POINTS.index(
-                    hole_score_to_par[0])
+                    hole_score_to_par)
                 hole_points = POINTS_PER_SCORE[hole_score_type]
             except ValueError:
+                hole_points = 0
+            except:
                 hole_points = 0
 
             total_points_for_round += hole_points

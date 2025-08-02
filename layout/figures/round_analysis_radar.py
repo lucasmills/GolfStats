@@ -127,6 +127,7 @@ def generate_round_analysis_radar(data):
                  scaled_best_bsob,
                  scaled_best_fairways]
 
+    data_for_best_score = data_for_best_score.iloc[[-1]]
     best_date = data_for_best_score["Date"][0]
     best_date_string = best_date.strftime("%Y-%B-%d")
 
