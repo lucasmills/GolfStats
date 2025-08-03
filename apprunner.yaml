@@ -1,5 +1,7 @@
 version: 1.0
 runtime: python3
+instanceConfiguration:
+  port: 8080
 build:
   commands:
     build:
