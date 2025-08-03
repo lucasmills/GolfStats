@@ -23,9 +23,8 @@ def generate_scorecard_table(all_data, par_data, margins):
         for j in range(0, len(fill_color[i])):
             course = all_data.iloc[j]["Course"]
             score = all_data.iloc[j][str(i-1)]
-            fill = par_data["Course"] == course
-            course_par = par_data[fill]
-            par = course_par[str(i-1)][0]
+            course_par = par_data[par_data["Course"] == course]
+            par = course_par[str(i-1)].iloc[0]
             to_par = score - par
             if to_par < 0:
                 color = "lightgreen"
