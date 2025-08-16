@@ -17,8 +17,8 @@ def calculate_handicap(scores, par_data):
         data = ordered_scores.iloc[i, :]
         course = data["Course"]
         course_data = par_data[par_data["Course"] == course]
-        rating = course_data["Rating"][0]
-        slope = course_data["Slope"][0]
+        rating = course_data["Rating"].iloc[0]
+        slope = course_data["Slope"].iloc[0]
         score = data["Score"]
 
         differential = 113 / slope * (score - rating)
