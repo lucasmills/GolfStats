@@ -9,6 +9,7 @@ from layout.figures.historic_data_line_graph import \
     generate_historical_line_graph
 from layout.figures.in_regulation_iqr_graph import generate_in_regulation_iqr
 from layout.figures.round_analysis_radar import generate_round_analysis_radar
+from layout.figures.score_iqr_graph import generate_score_iqr
 from layout.figures.score_type_histogram import generate_score_type_histogram
 from layout.figures.scorecard_table import generate_scorecard_table
 from utils.calculate_handicap import calculate_handicap
@@ -40,6 +41,7 @@ load_figure_template(["lux"])
 # Generate figures
 historical_line_graph = generate_historical_line_graph(golf_data, margins)
 in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
+score_iqr_graph = generate_score_iqr(golf_data, margins)
 round_analysis_radar = generate_round_analysis_radar(golf_data)
 score_type_histogram = generate_score_type_histogram(golf_data, margins)
 scorecards_table = generate_scorecard_table(all_data, par_data, margins)
@@ -81,7 +83,40 @@ dashboard = dbc.Row(
             className="dashboard-row"
         ),
 
-        # Round analysis
+        # # Round analysis
+        # dbc.Row([
+        #     dbc.Col(
+        #         dbc.Card(
+        #             [
+        #                 dbc.CardHeader(html.H4("Round Analysis")),
+        #                 dbc.CardBody(
+        #                     [
+        #                         dcc.Graph(
+        #                             id='example-graph99',
+        #                             figure=round_analysis_radar,
+        #                             config={'displayModeBar': False},
+        #                             style={"height": "700px", "width": "100%", "flex": "1", "display": "flex"}
+        #                         ),
+        #
+        #                         html.Div(style={"flex-grow": 1}),
+        #
+        #                         # Small text at the bottom
+        #                         html.P("BSOB (Better side of Bogey) = ratio of holes better than to worse than bogey",
+        #                                className="card-text",
+        #                                style={"font-size": "12px", "color": "gray", "text-align": "left"})
+        #                     ],
+        #                 ),
+        #             ],
+        #         ),
+        #         sm=12,
+        #         md=12,
+        #         style={'padding-right': "5px"}
+        #     ),
+        # ],
+        #     className="dashboard-row"
+        # ),
+
+        # Round analysis 2
         dbc.Row([
             dbc.Col(
                 dbc.Card(
@@ -89,24 +124,27 @@ dashboard = dbc.Row(
                         dbc.CardHeader(html.H4("Round Analysis")),
                         dbc.CardBody(
                             [
-                                dcc.Graph(
-                                    id='example-graph99',
-                                    figure=round_analysis_radar,
-                                    config={'displayModeBar': False},
-                                    style={"height": "700px", "width": "100%", "flex": "1", "display": "flex"}
-                                ),
+                                html.Div([
 
-                                html.Div(style={"flex-grow": 1}),
+                                    html.Div([
+                                        dcc.Graph(figure=in_regulation_graph)
+                                    ], style={'width': '60%', 'display': 'inline-block'}),
+
+                                    html.Div([
+                                        dcc.Graph(figure=score_iqr_graph)
+                                    ], style={'width': '40%', 'display': 'inline-block'}),
+
+                                ]),
 
                                 # Small text at the bottom
-                                html.P("BSOB (Better side of Bogey) = ratio of holes better than to worse than bogey",
+                                html.P("Red dot indicates the most recent round.",
                                        className="card-text",
                                        style={"font-size": "12px", "color": "gray", "text-align": "left"})
                             ],
                         ),
                     ],
                 ),
-                sm=12,
+                sm=6,
                 md=12,
                 style={'padding-right': "5px"}
             ),
