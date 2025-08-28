@@ -113,21 +113,26 @@ dashboard = dbc.Row(
                             ],
                         ),
                     ],
+                    className="flex-fill"
                 ),
                 sm=6,
                 md=8,
+                className="d-flex",
                 style={'padding-right': "5px"}
             ),
 
             # BOX SCORES
             dbc.Col(
                 dbc.Card([
-                    dbc.CardHeader(html.H4("Score by Par")),
+                    dbc.CardHeader(html.H4("Hole Par")),
                     dbc.CardBody([hole_par_header] + hole_par_rows)
-                ]),
+                ],
+                    className="flex-fill"
+                ),
                 sm=6,
                 md=4,
-                style={'padding-right': "5px", "height": "flex"}
+                className="d-flex",
+                style={'padding-right': "5px"}
             ),
         ],
             align="stretch",
