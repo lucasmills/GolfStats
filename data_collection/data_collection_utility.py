@@ -33,7 +33,11 @@ def collect_score_and_calculate_points(scorecards, course_pars):
                                              "Pars",
                                              "Bogeys",
                                              "Doubles+",
-                                             "BetterSideOfBogey"])
+                                             "BetterSideOfBogey",
+                                             "Par5Average",
+                                             "Par4Average",
+                                             "Par3Average"
+                                             ])
 
     # Comment
     for card, _ in scorecards.iterrows():
@@ -58,11 +62,32 @@ def collect_score_and_calculate_points(scorecards, course_pars):
         total_bogeys_for_round = 0
         total_doubles_plus_per_round = 0
 
+        number_of_par_5s = 0
+        number_of_par_4s = 0
+        number_of_par_3s = 0
+
+        score_on_par_5s = 0
+        score_on_par_4s = 0
+        score_on_par_3s = 0
+
         # Comment
         for hole in GOLF_HOLES:
             hole_par = course_par[str(hole)].iloc[0]
             hole_score = scorecard_data[str(hole)]
             hole_score_to_par = hole_score - hole_par
+
+            # Comment
+            if hole_par == 5:
+                number_of_par_5s += 1
+                score_on_par_5s += hole_score
+
+            elif hole_par == 4:
+                number_of_par_4s += 1
+                score_on_par_4s += hole_score
+
+            elif hole_par == 3:
+                number_of_par_3s += 1
+                score_on_par_3s += hole_score
 
             total_score_for_round += hole_score
             total_to_par_for_round += hole_score_to_par
@@ -91,6 +116,11 @@ def collect_score_and_calculate_points(scorecards, course_pars):
         # Create pars and better to doubles and worse metric
         better_side_of_bogey = (total_birdies_for_round + total_pars_for_round) / total_doubles_plus_per_round
 
+        # Calculate score average per hole par
+        par_5_avg = score_on_par_5s / number_of_par_5s
+        par_4_avg = score_on_par_4s / number_of_par_4s
+        par_3_avg = score_on_par_3s / number_of_par_3s
+
         # Combine round stats
         round_score = \
             pandas.DataFrame({"Date": [date_played],
@@ -105,7 +135,11 @@ def collect_score_and_calculate_points(scorecards, course_pars):
                               "Pars": [total_pars_for_round],
                               "Bogeys": [total_bogeys_for_round],
                               "Doubles+": [total_doubles_plus_per_round],
-                              "BetterSideOfBogey": [better_side_of_bogey]})
+                              "BetterSideOfBogey": [better_side_of_bogey],
+                              "Par5Average": [par_5_avg],
+                              "Par4Average": [par_4_avg],
+                              "Par3Average": [par_3_avg]
+                              })
 
         # Comment
         golf_history = pandas.concat([golf_history, round_score])

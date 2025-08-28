@@ -7,6 +7,7 @@ from dash import dcc, html
 from dash_bootstrap_templates import load_figure_template
 from layout.figures.historic_data_line_graph import \
     generate_historical_line_graph
+from layout.figures.hole_par_box_scores import generate_hole_par_box_scores
 from layout.figures.in_regulation_iqr_graph import generate_in_regulation_iqr
 from layout.figures.round_analysis_radar import generate_round_analysis_radar
 from layout.figures.score_iqr_graph import generate_score_iqr
@@ -40,6 +41,7 @@ load_figure_template(["lux"])
 
 # Generate figures
 historical_line_graph = generate_historical_line_graph(golf_data, margins)
+hole_par_header, hole_par_rows = generate_hole_par_box_scores(golf_data, margins)
 in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
 score_iqr_graph = generate_score_iqr(golf_data, margins)
 round_analysis_radar = generate_round_analysis_radar(golf_data)
@@ -83,41 +85,9 @@ dashboard = dbc.Row(
             className="dashboard-row"
         ),
 
-        # # Round analysis
-        # dbc.Row([
-        #     dbc.Col(
-        #         dbc.Card(
-        #             [
-        #                 dbc.CardHeader(html.H4("Round Analysis")),
-        #                 dbc.CardBody(
-        #                     [
-        #                         dcc.Graph(
-        #                             id='example-graph99',
-        #                             figure=round_analysis_radar,
-        #                             config={'displayModeBar': False},
-        #                             style={"height": "700px", "width": "100%", "flex": "1", "display": "flex"}
-        #                         ),
-        #
-        #                         html.Div(style={"flex-grow": 1}),
-        #
-        #                         # Small text at the bottom
-        #                         html.P("BSOB (Better side of Bogey) = ratio of holes better than to worse than bogey",
-        #                                className="card-text",
-        #                                style={"font-size": "12px", "color": "gray", "text-align": "left"})
-        #                     ],
-        #                 ),
-        #             ],
-        #         ),
-        #         sm=12,
-        #         md=12,
-        #         style={'padding-right': "5px"}
-        #     ),
-        # ],
-        #     className="dashboard-row"
-        # ),
-
-        # Round analysis 2
+        # Round analysis
         dbc.Row([
+            # IQR GRAPHS
             dbc.Col(
                 dbc.Card(
                     [
@@ -145,10 +115,22 @@ dashboard = dbc.Row(
                     ],
                 ),
                 sm=6,
-                md=12,
+                md=8,
                 style={'padding-right': "5px"}
             ),
+
+            # BOX SCORES
+            dbc.Col(
+                dbc.Card([
+                    dbc.CardHeader(html.H4("Score by Par")),
+                    dbc.CardBody([hole_par_header] + hole_par_rows)
+                ]),
+                sm=6,
+                md=4,
+                style={'padding-right': "5px", "height": "flex"}
+            ),
         ],
+            align="stretch",
             className="dashboard-row"
         ),
 
