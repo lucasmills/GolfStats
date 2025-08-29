@@ -1,10 +1,38 @@
 #
-import pandas
+from dash import html
 from plotly import graph_objects as go
 
 
 # Generator
 def generate_scorecard_table(all_data, par_data, margins):
+    # Create legend
+    # Labels for scorecards
+    color_labels = [
+        {"color": "lightgreen", "label": "Birdie"},
+        {"color": "skyblue", "label": "Par"},
+        {"color": "khaki", "label": "Bogey"},
+        {"color": "lightcoral", "label": "Double bogey or worse"}
+    ]
+
+    legend_row = html.Div(
+        style={"display": "flex", "gap": "20px", "padding": "10px"},
+        children=[
+            html.Div(
+                style={"display": "flex", "alignItems": "center", "gap": "8px"},
+                children=[
+                    html.Div(style={
+                        "width": "16px",
+                        "height": "16px",
+                        "backgroundColor": item["color"],
+                        "borderRadius": "3px"
+                    }),
+                    html.Span(item["label"], style={"fontSize": "14px"})
+                ]
+            )
+            for item in color_labels
+        ]
+    )
+
     all_data = all_data.sort_values("Date", ascending=False)
 
     num_lists = 21
@@ -71,4 +99,4 @@ def generate_scorecard_table(all_data, par_data, margins):
         margin=margins
     )
 
-    return fig
+    return fig, legend_row

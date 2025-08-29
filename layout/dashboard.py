@@ -46,7 +46,7 @@ in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
 score_iqr_graph = generate_score_iqr(golf_data, margins)
 round_analysis_radar = generate_round_analysis_radar(golf_data)
 score_type_histogram = generate_score_type_histogram(golf_data, margins)
-scorecards_table = generate_scorecard_table(all_data, par_data, margins)
+scorecards_table, legend_row = generate_scorecard_table(all_data, par_data, margins)
 
 
 dashboard = dbc.Row(
@@ -144,6 +144,9 @@ dashboard = dbc.Row(
                 dbc.Card(
                     [
                         dbc.CardHeader(html.H4("Scorecards")),
+                        # Legend
+                        legend_row,
+
                         dbc.CardBody(
                             [
                                 dcc.Graph(
