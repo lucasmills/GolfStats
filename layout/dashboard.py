@@ -126,7 +126,7 @@ dashboard = dbc.Row(
             # BOX SCORES
             dbc.Col(
                 dbc.Card([
-                    dbc.CardHeader(html.H4("Numeric")),
+                    dbc.CardHeader(html.H4("Stats")),
                     html.P("Score by hole type.",
                            className="card-text",
                            style={"font-size": "16px", "color": "black", "text-align": "center",

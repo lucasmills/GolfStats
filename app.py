@@ -21,7 +21,7 @@ app.layout = html.Div(children=[
     navbar,
     dashboard,
     dcc.Markdown(
-        "*Version 1.5.4; last updated 30 August 2025",
+        "*Version 1.5.5; last updated 30 August 2025.",
         link_target="_blank",
         id="attribution",
     ),
