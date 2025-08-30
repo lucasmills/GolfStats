@@ -9,6 +9,7 @@ from layout.figures.historic_data_line_graph import \
     generate_historical_line_graph
 from layout.figures.hole_par_box_scores import generate_hole_par_box_scores
 from layout.figures.in_regulation_iqr_graph import generate_in_regulation_iqr
+from layout.figures.other_metrics_box_scores import generate_other_metrics_box_scores
 from layout.figures.round_analysis_radar import generate_round_analysis_radar
 from layout.figures.score_iqr_graph import generate_score_iqr
 from layout.figures.score_type_histogram import generate_score_type_histogram
@@ -42,6 +43,7 @@ load_figure_template(["lux"])
 # Generate figures
 historical_line_graph = generate_historical_line_graph(golf_data, margins)
 hole_par_header, hole_par_rows = generate_hole_par_box_scores(golf_data, margins)
+metric_type_header, metric_type_rows = generate_other_metrics_box_scores(golf_data, margins)
 in_regulation_graph = generate_in_regulation_iqr(golf_data, margins)
 score_iqr_graph = generate_score_iqr(golf_data, margins)
 round_analysis_radar = generate_round_analysis_radar(golf_data)
@@ -124,8 +126,24 @@ dashboard = dbc.Row(
             # BOX SCORES
             dbc.Col(
                 dbc.Card([
-                    dbc.CardHeader(html.H4("Hole Par")),
-                    dbc.CardBody([hole_par_header] + hole_par_rows)
+                    dbc.CardHeader(html.H4("Numeric")),
+                    html.P("Score by hole type.",
+                           className="card-text",
+                           style={"font-size": "16px", "color": "black", "text-align": "center",
+                                  "margin-top": "1rem"}),
+
+                    dbc.CardBody(
+                        # Score by hole type
+                        [hole_par_header] + hole_par_rows
+                    ),
+
+                    html.P("Other metrics.",
+                           className="card-text",
+                           style={"font-size": "16px", "color": "black", "text-align": "center"}),
+                    dbc.CardBody(
+                        # Score by hole type
+                        [metric_type_header] + metric_type_rows
+                    )
                 ],
                     className="flex-fill"
                 ),
