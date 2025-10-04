@@ -6,6 +6,8 @@ import plotly.graph_objects as go
 
 # Generator
 def generate_historical_line_graph(golf_data, margins):
+    # Plot line width
+
     line_width = 4
     # Plot score
     layout = go.Layout(
@@ -16,6 +18,8 @@ def generate_historical_line_graph(golf_data, margins):
         ),
         dragmode="pan"
     )
+
+    # Create figure object with custom layout
     fig = go.Figure(layout=layout)
 
     # Score

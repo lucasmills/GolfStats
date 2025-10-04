@@ -35,7 +35,9 @@ courses_played = golf_data["Course"].nunique()
 handicap = calculate_handicap(golf_data, par_data)
 
 
+# Set graph margins
 margins = dict(l=60, r=60, b=60, t=25, pad=0)
+
 # Set the template for all dashboard plots
 load_figure_template(["lux"])
 
@@ -51,7 +53,9 @@ score_type_histogram = generate_score_type_histogram(golf_data, margins)
 scorecards_table, legend_row = generate_scorecard_table(all_data, par_data, margins)
 
 
+# Create core dashboard object
 dashboard = dbc.Row(
+    # Comment
     dbc.Col([
         dbc.Row([
             # Number of rounds played

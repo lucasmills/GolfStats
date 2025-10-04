@@ -1,4 +1,4 @@
-
+#
 # Set path constants
 PATH_TO_DATA = "data\\GolfData.xlsx"
 SCORE_CARDS = "Score Cards"

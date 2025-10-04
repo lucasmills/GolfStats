@@ -68,6 +68,8 @@ def generate_scorecard_table(all_data, par_data, margins):
     all_data["Date"] = all_data["Date"].astype(str)
     all_data = all_data.iloc[:, : 20]
     all_data["T"] = all_data.iloc[:, 2:20].sum(axis=1)
+
+    # Comment
     fig = go.Figure(
         data=[go.Table(
             columnwidth=[25, 25,
@@ -77,10 +79,8 @@ def generate_scorecard_table(all_data, par_data, margins):
                          small_size, small_size, small_size, small_size,
                          small_size, small_size, small_size],
 
-            header=dict(values=["Course", "Date",
-                                "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                                "10", "11", "12", "13", "14", "15", "16", "17",
-                                "18", "T"],
+            header=dict(values=["Course", "Date", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
+                                "14", "15", "16", "17", "18", "T"],
                         line_color="darkslategray",
                         fill_color="grey",
                         font=dict(color="white")
@@ -90,8 +90,8 @@ def generate_scorecard_table(all_data, par_data, margins):
                        fill_color=fill_color,
                        line_color="darkslategray"
                        )
-        )
-        ])
+        )]
+    )
 
     margins = dict(l=2, r=2, b=2, t=2, pad=0)
     fig.update_layout(

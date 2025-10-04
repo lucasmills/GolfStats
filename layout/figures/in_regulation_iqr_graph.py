@@ -15,10 +15,9 @@ def generate_in_regulation_iqr(golf_data, margins):
     )
 
     # Get latest round data
-    # Get latest round data
     latest_round = golf_data.iloc[-1]
-    latest_round_gir = latest_round["Fairways"]
-    latest_round_fw = latest_round["GIR"]
+    latest_round_gir = latest_round["GIR"]
+    latest_round_fw = latest_round["Fairways"]
 
     fig.add_trace(go.Scatter(
         x=["GIR"],

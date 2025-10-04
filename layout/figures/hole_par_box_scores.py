@@ -30,7 +30,7 @@ def generate_hole_par_box_scores(golf_data, margins):
     # Header row
     header_row = dbc.Row([
         dbc.Col(html.Div(header, style={
-            'fontWeight': 'bold', 'textAlign': 'center'   #'fontWeight': 'bold', 'fontSize': '24px', 'textAlign': 'center'
+            'fontWeight': 'bold', 'textAlign': 'center'
         }), width=4) for header in headers
     ], className="mb-4")
 
@@ -39,7 +39,7 @@ def generate_hole_par_box_scores(golf_data, margins):
     for i in range(0, 9, 3):
         row = dbc.Row([
             dbc.Col(html.Div(str(numbers[i + j]),
-                             style={'textAlign': 'center'}   # style={'fontSize': '48px', 'textAlign': 'center'}
+                             style={'textAlign': 'center'}
                              ), width=4) for j in range(3)
         ], className="mb-3")
         grid_rows.append(row)
