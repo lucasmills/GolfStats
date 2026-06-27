@@ -8,10 +8,12 @@ def generate_scorecard_table(all_data, par_data, margins):
     # Create legend
     # Labels for scorecards
     color_labels = [
-        {"color": "lightgreen", "label": "Birdie"},
+        {"color": "violet", "label": "Eagle"},
+        {"color": "mediumaquamarine", "label": "Birdie"},
         {"color": "skyblue", "label": "Par"},
-        {"color": "khaki", "label": "Bogey"},
-        {"color": "lightcoral", "label": "Double bogey or worse"}
+        {"color": "navajowhite", "label": "Bogey"},
+        {"color": "lightcoral", "label": "Double bogey"},
+        {"color": "indianred", "label": "Triple bogey or worse"}
     ]
 
     legend_row = html.Div(
@@ -54,14 +56,31 @@ def generate_scorecard_table(all_data, par_data, margins):
             course_par = par_data[par_data["Course"] == course]
             par = course_par[str(i-1)].iloc[0]
             to_par = score - par
-            if to_par < 0:
-                color = "lightgreen"
+            # eagle will be
+            # if to_par < -1:
+            #     color = "olive"
+            # elif to_par == -1:
+            #     color = "mediumseagreen"
+            # elif to_par == 0:
+            #     color = "skyblue"
+            # elif to_par == 1:
+            #     color = "khaki"
+            # elif to_par == 2:
+            #     color = "lightcoral"
+            # else:
+            #     color = "plum"
+            if to_par < -1:
+                color = "violet"
+            elif to_par == -1:
+                color = "mediumaquamarine"
             elif to_par == 0:
                 color = "skyblue"
             elif to_par == 1:
-                color = "khaki"
-            else:
+                color = "navajowhite"
+            elif to_par == 2:
                 color = "lightcoral"
+            else:
+                color = "indianred"
 
             fill_color[i][j] = color
 
