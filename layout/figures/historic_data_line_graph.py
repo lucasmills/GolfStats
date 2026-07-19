@@ -46,10 +46,16 @@ def generate_historical_line_graph(golf_data, margins):
         go.Scatter(
             x=golf_data["Date"],
             y=golf_data["Score"],
+            mode="lines+markers",
             line_width=line_width,
             customdata=["Course"],
             name="Score",
-            marker_size=10
+            # marker_size=14,
+            marker=dict(
+                size=14,
+                symbol="circle",
+                color="black"
+            )
         )
     )
 
@@ -86,24 +92,25 @@ def generate_historical_line_graph(golf_data, margins):
         )
     )
 
-    # Rolling average
-    fig.add_trace(
-        go.Scatter(
-            x=golf_data["Date"],
-            y=rolling_avg,
-            customdata=["Course"],
-            name="Trend",
-            visible="legendonly",
-            line_color="black",
-            line_dash="dash",
-            line_width=1,
-            marker_color=marker_color,
-            marker_line_color=marker_line_color,
-            marker_line_width=2,
-            marker_size=15,
-            marker_symbol=marker_symbol
-        )
-    )
+    # # Rolling average
+    # fig.add_trace(
+    #     go.Scatter(
+    #         x=golf_data["Date"],
+    #         y=rolling_avg,
+    #         customdata=["Course"],
+    #         name="Trend",
+    #         visible="legendonly",
+    #         line_color="black",
+    #         line_dash="dash",
+    #         mode="lines+markers",
+    #         line_width=1,
+    #         marker_color=marker_color,
+    #         marker_line_color=marker_line_color,
+    #         marker_line_width=2,
+    #         marker_size=15,
+    #         marker_symbol=marker_symbol
+    #     )
+    # )
 
     # Fairways
     fig.add_trace(
@@ -111,6 +118,7 @@ def generate_historical_line_graph(golf_data, margins):
             x=golf_data["Date"],
             y=golf_data["Fairways"],
             name="Fairways",
+            mode="lines+markers",
             visible="legendonly"
         )
     )
@@ -122,6 +130,7 @@ def generate_historical_line_graph(golf_data, margins):
             y=golf_data["GIR"],
             line_width=line_width,
             name="Greens",
+            mode="lines+markers",
             visible="legendonly"
         )
     )
@@ -133,6 +142,7 @@ def generate_historical_line_graph(golf_data, margins):
             y=golf_data["Putts"],
             line_width=line_width,
             name="Putts",
+            mode="lines+markers",
             visible="legendonly"
         )
     )
